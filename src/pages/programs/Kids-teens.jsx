@@ -376,7 +376,7 @@ const Boxers = () => {
     },
     {
       id: 10,
-      name: "Anelica Nsabimana",
+      name: "Abdul havyarimana",
       age: 19,
       category: "amateur",
       level: "elite_amateur",
