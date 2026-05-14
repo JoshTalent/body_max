@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import MobileOverflowFix from "./MobileOverflowFix";
+import Footer from "./components/Footer";
 
 // import main pages
 import Home from "./pages/Home";
@@ -9,6 +10,7 @@ import Contact from "./pages/Contact";
 import Fitness from "./pages/programs/Fitness";
 import Fundamentals from "./pages/programs/Fundamentals";
 import Kids_teens from "./pages/programs/Kids-teens";
+import BoxersPage from "./pages/BoxersPage";
 import Blog from "./pages/Blog";
 import Coaches from "./pages/Coaches";
 
@@ -26,9 +28,11 @@ const App = () => {
         <Route path="/programs/fitness" element={<Fitness />} />
         <Route path="/programs/fundamentals" element={<Fundamentals />} />
         <Route path="/programs/kids-teens" element={<Kids_teens />} />
+        <Route path="/boxers" element={<BoxersPage />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/coaches" element={<Coaches />} />
       </Routes>
+      <Footer />
     </>
   );
 };

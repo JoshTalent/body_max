@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import {
@@ -15,6 +15,11 @@ import {
   Users,
   BookOpen,
   Filter,
+  ChevronRight,
+  Mail,
+  Zap,
+  Star,
+  Hash
 } from "lucide-react";
 
 const Blog = () => {
@@ -167,454 +172,380 @@ const Blog = () => {
   };
 
   return (
-    <>
+    <div className="bg-[#f8fafc] min-h-screen font-poppins">
       <Navbar />
 
-      {/* NEW LAYOUT: Split Screen Hero */}
-      <section className="min-h-screen bg-white flex flex-col lg:flex-row">
-        {/* Left Side - Content */}
-        <div className="flex-1 flex items-center justify-center p-12 bg-gradient-to-br from-blue-50 to-white">
-          <motion.div
-            className="max-w-2xl space-y-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
+      {/* MODERN CINEMATIC HERO */}
+      <section className="relative h-[80vh] flex items-center overflow-hidden bg-slate-950">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          <motion.img 
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.4 }}
+            transition={{ duration: 1.5 }}
+            src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=2070&auto=format&fit=crop"
+            alt="Boxing Background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-transparent to-slate-950/20" />
+        </div>
+
+        <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
+          <div className="max-w-4xl">
             <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
               className="space-y-6"
-              variants={{
-                hidden: { x: -50, opacity: 0 },
-                visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-              }}
             >
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-100 rounded-full">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                <span className="text-blue-700 font-semibold text-sm uppercase tracking-wide">
-                  Knowledge Hub
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-600/10 backdrop-blur-md border border-blue-500/20 rounded-full">
+                <Zap className="w-4 h-4 text-blue-400 fill-blue-400" />
+                <span className="text-blue-400 font-black text-[10px] uppercase tracking-[0.3em]">
+                  The Knowledge Hub
                 </span>
               </div>
 
-              <h1 className="text-6xl md:text-7xl font-black leading-tight">
-                Boxing
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-                  Insights
+              <h1 className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter">
+                BODYMAX <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
+                  INSIGHTS.
                 </span>
               </h1>
 
-              <p className="text-xl text-gray-600 leading-relaxed">
-                Expert insights, training tips, and inspiring stories from
-                Rwanda's premier boxing community. Your ultimate resource for
-                boxing knowledge and fitness advice.
+              <p className="text-xl text-slate-300 max-w-2xl font-medium leading-relaxed">
+                Unlock your full potential with expert-led training techniques, 
+                high-performance nutrition, and the raw stories that define 
+                our championship culture.
               </p>
-            </motion.div>
 
-            {/* Search Bar */}
-            <motion.div
-              className="relative"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { delay: 0.3, duration: 0.8 },
-                },
-              }}
-            >
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search articles, tips, and guides..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white text-gray-900 pl-12 pr-4 py-4 rounded-2xl border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 shadow-lg"
-              />
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Right Side - Featured Article */}
-        <div className="flex-1 relative bg-gray-900">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-gray-900"></div>
-          <div className="relative h-full flex items-center justify-center p-12">
-            <motion.div
-              className="w-full max-w-lg text-white"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 shadow-2xl">
-                <div className="flex items-center gap-2 text-blue-200 text-sm mb-4">
-                  <TrendingUp className="w-4 h-4" />
-                  <span>Featured Article</span>
+              {/* Advanced Search Bar */}
+              <div className="relative max-w-2xl mt-12 pt-4">
+                <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                  <Search className="w-5 h-5 text-slate-400" />
                 </div>
-                <h2 className="text-2xl font-bold mb-4">
-                  {popularPosts[0]?.title}
-                </h2>
-                <p className="text-blue-100 mb-6 leading-relaxed">
-                  {popularPosts[0]?.excerpt}
-                </p>
-                <div className="flex items-center justify-between text-sm text-blue-200">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>
-                        {new Date(popularPosts[0]?.date).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{popularPosts[0]?.readTime}</span>
-                    </div>
-                  </div>
-                  <button className="flex items-center gap-2 text-white hover:text-blue-200 transition-colors">
-                    Read More
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
+                <input
+                  type="text"
+                  placeholder="SEARCH ARTICLES, TECHNIQUES, GUIDES..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-white/5 backdrop-blur-2xl border border-white/10 text-white pl-16 pr-8 py-6 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-black text-[10px] tracking-[0.2em] placeholder:text-slate-500"
+                />
               </div>
             </motion.div>
           </div>
         </div>
+
+        {/* Animated Scroll Indicator */}
+        <motion.div 
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-2 pointer-events-none"
+        >
+          <div className="w-[1px] h-12 bg-gradient-to-b from-blue-500 to-transparent" />
+          <span className="text-[8px] font-black text-slate-500 tracking-[0.4em] uppercase">Scroll</span>
+        </motion.div>
       </section>
 
-      {/* NEW LAYOUT: Content with Sidebar */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Sidebar - Categories & Filters */}
-            <motion.div
-              className="lg:w-1/4 space-y-6"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              {/* View Toggle */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Filter className="w-5 h-5 text-blue-600" />
-                  View Options
-                </h3>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className={`flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                      viewMode === "grid"
-                        ? "bg-blue-600 text-white shadow-lg"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
-                  >
-                    Grid
-                  </button>
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className={`flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                      viewMode === "list"
-                        ? "bg-blue-600 text-white shadow-lg"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
-                  >
-                    List
-                  </button>
+      {/* MAIN CONTENT AREA */}
+      <section className="py-24 relative">
+        <div className="w-full max-w-7xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row gap-16">
+            
+            {/* STICKY SIDEBAR */}
+            <aside className="lg:w-1/4 space-y-12">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="sticky top-32 space-y-12"
+              >
+                {/* View Mode Toggle */}
+                <div className="bg-white rounded-[2rem] p-4 shadow-xl shadow-slate-200/50 border border-slate-100">
+                  <div className="flex p-1 bg-slate-100 rounded-2xl">
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black tracking-widest transition-all ${
+                        viewMode === "grid" ? "bg-white text-blue-600 shadow-md" : "text-slate-500 hover:text-slate-900"
+                      }`}
+                    >
+                      GRID VIEW
+                    </button>
+                    <button
+                      onClick={() => setViewMode("list")}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black tracking-widest transition-all ${
+                        viewMode === "list" ? "bg-white text-blue-600 shadow-md" : "text-slate-500 hover:text-slate-900"
+                      }`}
+                    >
+                      LIST VIEW
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              {/* Categories */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                  Categories
-                </h3>
-                <div className="space-y-2">
-                  {categories.map((category) => {
-                    const Icon = getCategoryIcon(category.id);
-                    const postCount = blogPosts.filter(
-                      (post) => post.category === category.id,
-                    ).length;
-                    return (
-                      <button
-                        key={category.id}
-                        onClick={() => setSelectedCategory(category.id)}
-                        className={`flex items-center justify-between w-full p-3 rounded-lg transition-all duration-300 ${
-                          selectedCategory === category.id
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <Icon className="w-4 h-4" />
-                          <span className="font-medium">{category.name}</span>
-                        </div>
-                        <span
-                          className={`px-2 py-1 rounded-full text-sm ${
-                            selectedCategory === category.id
-                              ? "bg-blue-500 text-white"
-                              : "bg-gray-200 text-gray-600"
+                {/* Categories */}
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between px-2">
+                    <h3 className="text-[10px] font-black text-slate-900 tracking-[0.3em] uppercase">Categories</h3>
+                    <Filter className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {categories.map((category) => {
+                      const Icon = getCategoryIcon(category.id);
+                      const postCount = blogPosts.filter(
+                        (post) => post.category === category.id,
+                      ).length;
+                      return (
+                        <button
+                          key={category.id}
+                          onClick={() => setSelectedCategory(category.id === "all" ? "All" : category.id)}
+                          className={`flex items-center justify-between p-4 rounded-2xl transition-all border group ${
+                            (selectedCategory === "All" && category.id === "all") || selectedCategory === category.id
+                              ? "bg-slate-900 border-slate-900 text-white shadow-xl shadow-slate-900/20"
+                              : "bg-white border-slate-100 text-slate-600 hover:border-blue-200 hover:bg-blue-50/50"
                           }`}
                         >
-                          {postCount}
-                        </span>
-                      </button>
-                    );
-                  })}
+                          <div className="flex items-center gap-3">
+                            <Icon className={`w-4 h-4 transition-colors ${
+                              (selectedCategory === "All" && category.id === "all") || selectedCategory === category.id
+                                ? "text-blue-400"
+                                : "text-slate-400 group-hover:text-blue-500"
+                            }`} />
+                            <span className="text-[10px] font-black tracking-widest uppercase">{category.name}</span>
+                          </div>
+                          <span className={`text-[8px] font-black px-2 py-1 rounded-lg ${
+                            (selectedCategory === "All" && category.id === "all") || selectedCategory === category.id
+                              ? "bg-white/10 text-white"
+                              : "bg-slate-100 text-slate-400"
+                          }`}>
+                            {category.id === "all" ? blogPosts.length : postCount}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
 
-              {/* Popular Posts */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                  Popular Reads
-                </h3>
-                <div className="space-y-4">
-                  {popularPosts.map((post) => (
-                    <div
-                      key={post.id}
-                      className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
-                    >
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-12 h-12 object-cover rounded-lg"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-semibold text-gray-900 truncate">
-                          {post.title}
-                        </h4>
-                        <p className="text-xs text-gray-500">{post.readTime}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Main Content */}
-            <div className="lg:w-3/4">
-              {/* Header */}
-              <motion.div
-                className="flex items-center justify-between mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <div>
-                  <h2 className="text-3xl font-black text-gray-900 mb-2">
-                    {selectedCategory === "All"
-                      ? "All Articles"
-                      : categories.find((c) => c.id === selectedCategory)?.name}
-                  </h2>
-                  <p className="text-gray-600">
-                    {filteredPosts.length} articles found
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <BookOpen className="w-4 h-4" />
-                  <span>Knowledge Base</span>
+                {/* Trending Section */}
+                <div className="bg-blue-600 rounded-[2.5rem] p-8 text-white relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-3xl rounded-full translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-700" />
+                  <Star className="w-8 h-8 text-white/20 mb-6" />
+                  <h4 className="text-2xl font-black leading-tight mb-4 tracking-tighter">Join the <br />Pro Inner Circle</h4>
+                  <p className="text-blue-100 text-[10px] font-medium leading-relaxed mb-8 tracking-widest uppercase opacity-80">Get exclusive training drills and nutrition plans delivered weekly.</p>
+                  <button className="w-full bg-white text-blue-600 py-4 rounded-2xl font-black text-[10px] tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-blue-900/20">
+                    SUBSCRIBE NOW
+                  </button>
                 </div>
               </motion.div>
+            </aside>
 
-              {/* Articles Grid/List */}
-              {viewMode === "grid" ? (
-                <motion.div className="grid md:grid-cols-2 gap-8" layout>
-                  {filteredPosts.map((post, index) => {
-                    const CategoryIcon = getCategoryIcon(post.category);
-                    return (
+            {/* BLOG FEED */}
+            <main className="lg:w-3/4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
+                <div>
+                  <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">
+                    {selectedCategory === "All" ? "Latest Insights" : `${selectedCategory} GUIDES`}
+                  </h2>
+                  <p className="text-[10px] font-black text-slate-400 tracking-[0.3em] uppercase mt-2">
+                    Showing {filteredPosts.length} professional resources
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase">
+                  <BookOpen className="w-4 h-4 text-blue-500" />
+                  <span>Verified by Elite Coaches</span>
+                </div>
+              </div>
+
+              {/* GRID VIEW */}
+              <AnimatePresence mode="wait">
+                {viewMode === "grid" ? (
+                  <motion.div 
+                    key="grid"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-10"
+                  >
+                    {filteredPosts.map((post, index) => (
                       <motion.article
                         key={post.id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
-                        className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-200"
-                        whileHover={{ y: -5 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                        className="group bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 overflow-hidden flex flex-col"
                       >
-                        <div className="relative overflow-hidden">
+                        <div className="relative h-64 overflow-hidden">
                           <img
                             src={post.image}
                             alt={post.title}
-                            className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           />
-                          <div className="absolute top-4 left-4">
-                            <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                              <CategoryIcon className="w-4 h-4 text-blue-600" />
-                              <span className="text-sm font-medium text-gray-700 capitalize">
-                                {post.category}
-                              </span>
+                          <div className="absolute top-6 right-6">
+                            <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl flex items-center gap-2 shadow-lg">
+                              <Hash className="w-3 h-3 text-blue-600" />
+                              <span className="text-[8px] font-black text-slate-900 uppercase tracking-widest">{post.category}</span>
                             </div>
                           </div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         </div>
-                        <div className="p-6">
-                          <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              {new Date(post.date).toLocaleDateString()}
+                        
+                        <div className="p-10 flex-1 flex flex-col">
+                          <div className="flex items-center gap-6 mb-6">
+                            <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              <Calendar className="w-3 h-3 text-blue-500" />
+                              <span>{new Date(post.date).toLocaleDateString()}</span>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" />
-                              {post.readTime}
+                            <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              <Clock className="w-3 h-3 text-blue-500" />
+                              <span>{post.readTime}</span>
                             </div>
                           </div>
-                          <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+
+                          <h3 className="text-2xl font-black text-slate-950 mb-4 leading-tight tracking-tighter group-hover:text-blue-600 transition-colors">
                             {post.title}
                           </h3>
-                          <p className="text-gray-600 mb-4 leading-relaxed">
+                          
+                          <p className="text-slate-500 text-sm leading-relaxed mb-8 flex-1">
                             {post.excerpt}
                           </p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-sm text-gray-500">
-                              <User className="w-4 h-4" />
-                              By {post.author}
+
+                          <div className="pt-8 border-t border-slate-50 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                                <User className="w-4 h-4 text-slate-400" />
+                              </div>
+                              <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">{post.author}</span>
                             </div>
-                            <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors duration-300 font-semibold">
-                              Read More
-                              <ArrowRight className="w-4 h-4" />
+                            <button className="flex items-center gap-2 text-blue-600 font-black text-[10px] tracking-widest uppercase hover:translate-x-2 transition-transform">
+                              READ STORY <ArrowRight className="w-4 h-4" />
                             </button>
                           </div>
                         </div>
                       </motion.article>
-                    );
-                  })}
-                </motion.div>
-              ) : (
-                <motion.div className="space-y-6" layout>
-                  {filteredPosts.map((post, index) => {
-                    const CategoryIcon = getCategoryIcon(post.category);
-                    return (
+                    ))}
+                  </motion.div>
+                ) : (
+                  /* LIST VIEW */
+                  <motion.div 
+                    key="list"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-8"
+                  >
+                    {filteredPosts.map((post, index) => (
                       <motion.article
                         key={post.id}
-                        layout
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
-                        className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group border border-gray-200"
-                        whileHover={{ x: 5 }}
+                        className="group bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/30 hover:shadow-2xl transition-all duration-500 overflow-hidden"
                       >
-                        <div className="flex flex-col md:flex-row gap-6">
-                          <div className="md:w-1/4">
+                        <div className="flex flex-col md:flex-row">
+                          <div className="md:w-1/3 h-64 md:h-auto overflow-hidden">
                             <img
                               src={post.image}
                               alt={post.title}
-                              className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                             />
                           </div>
-                          <div className="md:w-3/4">
-                            <div className="flex items-center gap-4 mb-3">
-                              <div className="flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
-                                <CategoryIcon className="w-4 h-4" />
-                                <span className="text-sm font-medium capitalize">
-                                  {post.category}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-4 text-sm text-gray-500">
-                                <div className="flex items-center gap-1">
-                                  <Calendar className="w-4 h-4" />
-                                  {new Date(post.date).toLocaleDateString()}
-                                </div>
-                                <div className="flex items-center gap-1">
-                                  <Clock className="w-4 h-4" />
-                                  {post.readTime}
-                                </div>
+                          <div className="md:w-2/3 p-10">
+                            <div className="flex items-center gap-4 mb-4">
+                              <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest border border-blue-100">
+                                {post.category}
+                              </span>
+                              <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <span className="flex items-center gap-2"><Calendar className="w-3 h-3" /> {post.date}</span>
+                                <span className="flex items-center gap-2"><Clock className="w-3 h-3" /> {post.readTime}</span>
                               </div>
                             </div>
-
-                            <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                              {post.title}
-                            </h3>
-                            <p className="text-gray-600 mb-4 leading-relaxed">
-                              {post.excerpt}
-                            </p>
-
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 text-sm text-gray-500">
-                                <User className="w-4 h-4" />
-                                By {post.author}
-                              </div>
-                              <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors duration-300 font-semibold">
-                                Read More
-                                <ArrowRight className="w-4 h-4" />
+                            <h3 className="text-3xl font-black text-slate-950 mb-4 tracking-tighter group-hover:text-blue-600 transition-colors">{post.title}</h3>
+                            <p className="text-slate-500 mb-8 leading-relaxed line-clamp-2">{post.excerpt}</p>
+                            <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+                              <span className="text-[10px] font-black text-slate-900 tracking-widest uppercase">{post.author}</span>
+                              <button className="flex items-center gap-2 text-blue-600 font-black text-[10px] tracking-widest uppercase group-hover:translate-x-2 transition-transform">
+                                READ STORY <ArrowRight className="w-4 h-4" />
                               </button>
                             </div>
                           </div>
                         </div>
                       </motion.article>
-                    );
-                  })}
-                </motion.div>
-              )}
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {filteredPosts.length === 0 && (
-                <motion.div
-                  className="text-center py-20"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <p className="text-gray-400 text-xl mb-4">
-                    No articles found matching your criteria.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSearchTerm("");
-                      setSelectedCategory("All");
-                    }}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-300"
+                <div className="text-center py-32 bg-white rounded-[3rem] border border-dashed border-slate-200">
+                  <Search className="w-16 h-16 text-slate-200 mx-auto mb-6" />
+                  <h3 className="text-2xl font-black text-slate-900 mb-2 tracking-tighter uppercase">No Results Found</h3>
+                  <p className="text-slate-400 text-[10px] font-black tracking-widest uppercase">Try adjusting your search or filters</p>
+                  <button 
+                    onClick={() => {setSearchTerm(""); setSelectedCategory("All")}}
+                    className="mt-8 px-8 py-4 bg-slate-950 text-white rounded-2xl font-black text-[10px] tracking-widest hover:bg-blue-600 transition-all"
                   >
-                    View All Articles
+                    RESET ALL FILTERS
                   </button>
-                </motion.div>
+                </div>
               )}
-            </div>
+            </main>
           </div>
         </div>
       </section>
 
-      {/* NEW LAYOUT: Side-by-Side CTA */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-black mb-6">
-                Ready to Put Knowledge into Action?
+      {/* PREMIUM NEWSLETTER CTA */}
+      <section className="py-24">
+        <div className="w-full max-w-7xl mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="bg-slate-950 rounded-[4rem] p-12 md:p-24 relative overflow-hidden"
+          >
+            {/* Background elements */}
+            <div className="absolute top-0 right-0 w-1/2 h-full">
+              <img 
+                src="https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1974&auto=format&fit=crop" 
+                alt="" 
+                className="w-full h-full object-cover opacity-20 grayscale"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 to-transparent" />
+            </div>
+
+            <div className="relative z-10 max-w-2xl">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-600/20 border border-blue-500/20 rounded-full mb-8">
+                <Mail className="w-4 h-4 text-blue-400" />
+                <span className="text-blue-400 font-black text-[10px] uppercase tracking-[0.3em]">Stay Ahead of the Game</span>
+              </div>
+              
+              <h2 className="text-5xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-8">
+                LEVEL UP YOUR <br />
+                <span className="text-blue-500">TRAINING IQ.</span>
               </h2>
-              <p className="text-xl text-blue-100 mb-8">
-                Transform your reading into results. Join our community and
-                experience professional boxing training with expert coaches.
+              
+              <p className="text-xl text-slate-400 mb-12 font-medium">
+                Subscribe to our newsletter for exclusive technical breakdowns, 
+                advanced metabolic training, and early access to club events.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                  Start Your Free Trial
+              <form className="flex flex-col sm:flex-row gap-4">
+                <input 
+                  type="email" 
+                  placeholder="ENTER YOUR EMAIL ADDRESS"
+                  className="flex-1 bg-white/5 border border-white/10 text-white px-8 py-6 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-black text-[10px] tracking-widest placeholder:text-slate-600"
+                />
+                <button className="bg-blue-600 text-white px-10 py-6 rounded-3xl font-black text-[10px] tracking-widest hover:bg-white hover:text-slate-950 transition-all shadow-2xl shadow-blue-600/20">
+                  GET ACCESS
                 </button>
-                <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300">
-                  Meet Our Coaches
-                </button>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1170&auto=format&fit=crop"
-                alt="Boxing Training"
-                className="w-full h-96 object-cover rounded-3xl shadow-2xl"
-              />
-              <div className="absolute -bottom-6 -right-6 bg-white text-blue-600 p-6 rounded-2xl shadow-lg">
-                <div className="text-2xl font-bold">50+</div>
-                <div className="text-sm">Articles Published</div>
-                <div className="text-xs opacity-80">Expert Knowledge</div>
-              </div>
-            </motion.div>
-          </div>
+              </form>
+              
+              <p className="mt-8 text-[8px] font-black text-slate-600 tracking-[0.3em] uppercase">
+                Zero spam. Only elite-level content. Unsubscribe anytime.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

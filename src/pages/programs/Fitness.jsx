@@ -240,25 +240,29 @@ const BoxingFitness = () => {
         </div>
 
         {/* Right Side - Featured Image */}
-        <div className="flex-1 relative bg-gray-900">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-gray-900"></div>
+        <div className="flex-1 relative bg-white border-l border-slate-100">
+          <div className="absolute inset-0 bg-slate-50 skew-x-[-10deg] translate-x-20"></div>
           <div className="relative h-full flex items-center justify-center p-12">
             <motion.div
-              className="w-full max-w-md"
+              className="w-full max-w-md relative"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1 }}
             >
-              <img
-                src="https://i.postimg.cc/wv6DS1vD/Screenshot_2026_03_01_174550.png"
-                alt="Group fitness class with energetic music"
-                className="w-full h-96 object-cover rounded-3xl shadow-2xl"
-              />
-              <div className="mt-4 text-center text-white">
-                <h3 className="text-xl font-bold">
-                  Energetic Music-Driven Workouts
+              <div className="relative">
+                 <img
+                   src="https://i.postimg.cc/wv6DS1vD/Screenshot_2026_03_01_174550.png"
+                   alt="Group fitness class"
+                   className="w-full h-[500px] object-cover rounded-[3rem] shadow-2xl border-8 border-white"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent"></div>
+              </div>
+              
+              <div className="mt-8 text-center">
+                <h3 className="text-2xl font-black text-slate-950">
+                  Energetic Workouts
                 </h3>
-                <p className="text-gray-300 text-sm mt-1">
+                <p className="text-slate-500 font-bold text-sm mt-2 uppercase tracking-widest">
                   High-energy classes that make fitness fun
                 </p>
               </div>

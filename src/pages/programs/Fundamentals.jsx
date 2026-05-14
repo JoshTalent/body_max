@@ -186,25 +186,30 @@ const BoxingFundamentals = () => {
         </div>
 
         {/* Right Side - Image & Features */}
-        <div className="flex-1 relative bg-gray-900">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-gray-900"></div>
+        <div className="flex-1 relative bg-white border-l border-slate-100">
+          <div className="absolute inset-0 bg-slate-50 skew-x-[-15deg] translate-x-20"></div>
           <div className="relative h-full flex items-center justify-center p-12">
-            <div className="w-full max-w-lg">
-              <motion.img
-                src="https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png"
-                alt="Boxing Training"
-                className="w-full h-96 object-cover rounded-3xl shadow-2xl mb-8"
+            <div className="w-full max-w-lg relative">
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1 }}
-              />
+                className="relative mb-12"
+              >
+                 <img
+                   src="https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png"
+                   alt="Boxing Training"
+                   className="w-full h-[450px] object-cover rounded-[3rem] shadow-2xl border-8 border-white"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent"></div>
+              </motion.div>
 
               {/* Features Grid */}
               <div className="grid grid-cols-2 gap-4">
                 {features.slice(0, 4).map((feature, index) => (
                   <motion.div
                     key={feature.text}
-                    className="flex items-center gap-3 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/10"
+                    className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
@@ -213,7 +218,7 @@ const BoxingFundamentals = () => {
                       <feature.icon className="w-4 h-4 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-semibold text-sm">
+                      <h3 className="text-slate-900 font-bold text-xs uppercase tracking-tight">
                         {feature.text}
                       </h3>
                     </div>

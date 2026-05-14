@@ -199,23 +199,27 @@ const Contact = () => {
           </motion.div>
         </div>
 
-        {/* Right Side - Featured Content */}
-        <div className="flex-1 relative bg-gray-900">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-gray-900"></div>
+        {/* Right Side - Featured Content - CLEAN LIGHT THEME */}
+        <div className="flex-1 relative bg-white border-l border-slate-100">
+          <div className="absolute inset-0 bg-slate-50 skew-x-[-15deg] translate-x-20"></div>
           <div className="relative h-full flex items-center justify-center p-12">
             <motion.div
-              className="w-full max-w-md"
+              className="w-full max-w-md relative"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1 }}
             >
-              <div className="bg-white rounded-3xl p-8 shadow-2xl">
-                <div className="text-center mb-6">
-                  <MessageCircle className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                  <h3 className="text-2xl font-black text-gray-900 mb-2">
+              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 blur-3xl rounded-full"></div>
+                
+                <div className="text-center mb-8">
+                  <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                    <MessageCircle className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-3xl font-black text-slate-950 mb-2 uppercase tracking-tighter">
                     Quick Contact
                   </h3>
-                  <p className="text-gray-600">Get immediate assistance</p>
+                  <p className="text-slate-500 font-medium">Get immediate assistance from our team</p>
                 </div>
 
                 <div className="space-y-4">
@@ -225,14 +229,14 @@ const Contact = () => {
                       <a
                         key={index}
                         href={item.link}
-                        className="flex items-center gap-4 p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-all duration-300 group"
+                        className="flex items-center gap-5 p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-white transition-all duration-300 group shadow-sm"
                       >
-                        <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-700 transition-colors duration-300">
-                          <Icon className="w-6 h-6 text-white" />
+                        <div className="w-14 h-14 bg-white border border-slate-100 rounded-xl flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300 shadow-sm">
+                          <Icon className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm text-gray-600">{item.title}</p>
-                          <p className="font-semibold text-gray-900">
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.title}</p>
+                          <p className="font-black text-slate-950 text-lg tracking-tight">
                             {item.details}
                           </p>
                         </div>
