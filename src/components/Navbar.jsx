@@ -26,6 +26,7 @@ import {
   Sparkles,
   CheckCircle,
   Activity,
+  Swords,
 } from "lucide-react";
 
 const Navbar = () => {
@@ -89,22 +90,14 @@ const Navbar = () => {
       desc: "Discipline and coordination",
       color: "from-purple-500 to-indigo-700",
       duration: "12 Weeks",
-    },
-    {
-      name: "Competitive",
-      to: "/programs/competitive",
-      icon: Trophy,
-      tag: "Advanced",
-      desc: "Tournament preparation",
-      color: "from-amber-500 to-orange-600",
-      duration: "Ongoing",
-    },
+    }
   ];
 
   const clubLinks = [
     { name: "About", to: "/about" },
     { name: "Coaches", to: "/coaches" },
     { name: "Programs", to: "/programs", isDropdown: true },
+    { name: "Fighters", to: "/boxers", icon: Swords },
     { name: "Gallery", to: "/gallery" },
     { name: "Events", to: "/events" },
     { name: "Blog", to: "/blog" },
@@ -268,7 +261,7 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.to}
-                  className={`px-5 py-2 text-[11px] font-semibold tracking-wide transition-all duration-300 rounded-full ${
+                  className={`flex items-center gap-1.5 px-5 py-2 text-[11px] font-semibold tracking-wide transition-all duration-300 rounded-full ${
                     location.pathname === link.to
                       ? "text-blue-600 bg-blue-50"
                       : isScrolled
@@ -276,6 +269,7 @@ const Navbar = () => {
                         : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
                   }`}
                 >
+                  {link.icon && <link.icon className="w-3.5 h-3.5" />}
                   {link.name}
                 </Link>
               );
@@ -292,7 +286,7 @@ const Navbar = () => {
               CONTACT
             </Link>
             <Link
-              to="/join"
+              to="/contact"
               className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold tracking-wide rounded-full transition-all shadow-sm"
             >
               JOIN NOW
@@ -401,6 +395,7 @@ const Navbar = () => {
                         className="flex items-center gap-3 p-4 rounded-xl hover:bg-slate-50 transition-all"
                         onClick={() => setIsMobileOpen(false)}
                       >
+                        {item.icon && <item.icon className="w-5 h-5 text-blue-600" />}
                         <span className="text-base font-semibold text-slate-800">{item.name}</span>
                       </Link>
                     );
@@ -419,7 +414,7 @@ const Navbar = () => {
                   CONTACT US
                 </Link>
                 <Link
-                  to="/join"
+                  to="/contact"
                   className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-600 text-white text-sm font-semibold rounded-xl transition-all"
                   onClick={() => setIsMobileOpen(false)}
                 >

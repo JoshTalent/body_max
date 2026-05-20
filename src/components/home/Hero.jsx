@@ -147,29 +147,6 @@ const Hero = () => {
                 ))}
               </motion.div>
 
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                className="flex flex-col sm:flex-row gap-4 pt-4"
-              >
-                <Link
-                  to="/free-trial"
-                  className="group relative px-8 py-4 text-lg font-bold bg-white text-black rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3 shadow-2xl"
-                >
-                  Start Free Trial
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-
-                <button
-                  onClick={() => setIsVideoPlaying(true)}
-                  className="group px-8 py-4 text-lg font-bold rounded-lg border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 backdrop-blur-sm bg-black/40 hover:bg-white"
-                >
-                  <Play className="w-5 h-5" />
-                  Watch Story
-                </button>
-              </motion.div>
             </div>
 
             {/* Right Content - Made more transparent */}

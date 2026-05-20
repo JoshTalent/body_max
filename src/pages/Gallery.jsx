@@ -442,22 +442,7 @@ const Gallery = () => {
                 ))}
               </div>
 
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                <button className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-3">
-                  <Play className="w-5 h-5" />
-                  Watch Highlights Reel
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button className="border-2 border-white/30 hover:border-white/60 bg-transparent text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 backdrop-blur-sm">
-                  Explore Categories
-                </button>
-              </motion.div>
+              
             </motion.div>
 
             {/* Right Gallery Preview */}

@@ -160,27 +160,7 @@ const Coaches = () => {
                 ))}
               </motion.div>
 
-              {/* Action Buttons */}
-              <motion.div
-                className="flex flex-col sm:flex-row gap-4"
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { delay: 0.6, duration: 0.8 },
-                  },
-                }}
-              >
-                <button className="group bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl font-semibold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25 flex items-center gap-3">
-                  Book Your Session
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button className="group border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center gap-3">
-                  <Phone className="w-5 h-5" />
-                  Call Us Now
-                </button>
-              </motion.div>
+              
             </motion.div>
 
             {/* Right Content - Floating Coach Cards */}
