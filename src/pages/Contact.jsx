@@ -1,7 +1,9 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import axios from "axios";
 import {
   Phone,
   Mail,
@@ -10,6 +12,11 @@ import {
   Send,
   CheckCircle,
   MessageCircle,
+  ArrowRight,
+  Sparkles,
+  Shield,
+  Award,
+  Users,
 } from "lucide-react";
 
 const Contact = () => {
@@ -34,51 +41,65 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const response = await axios.post("https://bodymax-bc-backend.onrender.com/api/messages", formData);
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
-
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
+      if (response.data.success) {
+        setIsSubmitted(true);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        alert(response.data.message || "Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      alert(
+        error.response?.data?.message ||
+        "Failed to connect to the server. Please check your connection and try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
     {
       icon: Phone,
-      title: "Call Us",
+      title: "Phone",
       details: "+250 788 531 112",
-      description: "Mon-Fri from 8am to 6pm",
-      link: "tel:+250 788 531 112",
+      description: "Mon-Fri, 8am - 6pm",
+      link: "tel:+250788531112",
+      color: "from-emerald-500 to-teal-600",
     },
     {
       icon: Mail,
-      title: "Email Us",
+      title: "Email",
       details: "bodymaxboxingclub@gmail.com",
-      description: "We reply within 24 hours",
-      link: "mailto:info@therealboxing.rw",
+      description: "Response within 24h",
+      link: "mailto:bodymaxboxingclub@gmail.com",
+      color: "from-blue-500 to-indigo-600",
     },
     {
       icon: MapPin,
-      title: "Visit Us",
+      title: "Location",
       details: "KG 123 St, Kigali",
-      description: "Nyarugenge , kimisagara, Kigali City",
-      link: "https://maps.google.com/?q=KG+123+St,+Kigali",
+      description: "Nyarugenge, Kimisagara",
+      link: "https://maps.google.com",
+      color: "from-rose-500 to-red-600",
     },
     {
       icon: Clock,
-      title: "Open Hours",
+      title: "Hours",
       details: "Mon-Sun: 6am-9pm",
       description: "Weekends: 8am-6pm",
       link: "/schedule",
+      color: "from-amber-500 to-orange-600",
     },
   ];
 
@@ -105,275 +126,184 @@ const Contact = () => {
     },
   ];
 
+  const stats = [
+    { value: "50+", label: "Active Members" },
+    { value: "8", label: "Pro Coaches" },
+    { value: "24/7", label: "Access" },
+    { value: "100%", label: "Satisfaction" },
+  ];
+
   return (
     <>
       <Navbar />
 
-      {/* NEW LAYOUT: Split Screen Hero */}
-      <section className="min-h-screen bg-white flex flex-col lg:flex-row">
-        {/* Left Side - Content */}
-        <div className="flex-1 flex items-center justify-center p-12 bg-gradient-to-br from-blue-50 to-white">
-          <motion.div
-            className="max-w-2xl space-y-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
+      {/* Hero Section - Clean Split */}
+      <section className="pt-32 pb-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
             <motion.div
-              className="space-y-6"
-              variants={{
-                hidden: { x: -50, opacity: 0 },
-                visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-              }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-100 rounded-full">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                <span className="text-blue-700 font-semibold text-sm uppercase tracking-wide">
-                  GET IN TOUCH
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full mb-6">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                <span className="text-xs font-semibold text-blue-700 tracking-wide uppercase">
+                  Get in Touch
                 </span>
               </div>
-
-              <h1 className="text-6xl md:text-7xl font-black leading-tight">
-                Contact
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-                  BodyMax boxing
+              <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 mb-6">
+                Let's{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                  Connect
                 </span>
               </h1>
-
-              <p className="text-xl text-gray-600 leading-relaxed">
-                Ready to start your boxing journey? We're here to answer all
-                your questions and help you take the first step towards becoming
-                a champion.
+              <p className="text-lg text-slate-600 leading-relaxed mb-8">
+                Ready to start your boxing journey? We're here to answer your questions and help you take the first step.
               </p>
-            </motion.div>
 
-            {/* Quick Stats */}
-            <motion.div
-              className="grid grid-cols-2 gap-8"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { delay: 0.3, duration: 0.8 },
-                },
-              }}
-            >
-              {[
-                { number: "24h", label: "Response Time" },
-                { number: "100%", label: "Satisfaction" },
-                { number: "50+", label: "Queries Daily" },
-                { number: "5min", label: "Quick Reply" },
-              ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-2xl font-bold text-blue-600 mb-1">
-                    {stat.number}
+              {/* Stats */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                {stats.map((stat, idx) => (
+                  <div key={idx} className="text-center p-3 bg-slate-50 rounded-xl">
+                    <div className="text-xl font-bold text-blue-600">{stat.value}</div>
+                    <div className="text-xs text-slate-500">{stat.label}</div>
                   </div>
-                  <div className="text-gray-600 text-sm">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              className="flex flex-wrap gap-4"
-              variants={{
-                hidden: { y: 30, opacity: 0 },
-                visible: {
-                  y: 0,
-                  opacity: 1,
-                  transition: { delay: 0.8, duration: 0.8 },
-                },
-              }}
-            >
-              <button className="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/30">
-                Book Free Trial
-              </button>
-              <a
-                href="tel:+250 788 531 112"
-                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center gap-2"
-              >
-                <Phone className="w-5 h-5" />
-                Call Now
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Right Side - Featured Content - CLEAN LIGHT THEME */}
-        <div className="flex-1 relative bg-white border-l border-slate-100">
-          <div className="absolute inset-0 bg-slate-50 skew-x-[-15deg] translate-x-20"></div>
-          <div className="relative h-full flex items-center justify-center p-12">
-            <motion.div
-              className="w-full max-w-md relative"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 blur-3xl rounded-full"></div>
-                
-                <div className="text-center mb-8">
-                  <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
-                    <MessageCircle className="w-8 h-8 text-blue-600" />
-                  </div>
-                  <h3 className="text-3xl font-black text-slate-950 mb-2 uppercase tracking-tighter">
-                    Quick Contact
-                  </h3>
-                  <p className="text-slate-500 font-medium">Get immediate assistance from our team</p>
-                </div>
-
-                <div className="space-y-4">
-                  {contactInfo.slice(0, 2).map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                      <a
-                        key={index}
-                        href={item.link}
-                        className="flex items-center gap-5 p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-white transition-all duration-300 group shadow-sm"
-                      >
-                        <div className="w-14 h-14 bg-white border border-slate-100 rounded-xl flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300 shadow-sm">
-                          <Icon className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.title}</p>
-                          <p className="font-black text-slate-950 text-lg tracking-tight">
-                            {item.details}
-                          </p>
-                        </div>
-                      </a>
-                    );
-                  })}
-                </div>
+                ))}
               </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4">
+                <button className="px-6 py-3 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-all shadow-sm flex items-center gap-2">
+                  Book Free Trial
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <a
+                  href="tel:+250788531112"
+                  className="px-6 py-3 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2"
+                >
+                  <Phone className="w-4 h-4" />
+                  Call Now
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Right - Contact Cards Grid */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            >
+              {contactInfo.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={idx}
+                    href={item.link}
+                    className="group p-5 bg-white border border-slate-100 rounded-2xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-3 shadow-sm`}>
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800 mb-0.5">{item.title}</h3>
+                    <p className="text-sm font-medium text-blue-600 mb-1">{item.details}</p>
+                    <p className="text-xs text-slate-400">{item.description}</p>
+                  </a>
+                );
+              })}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section - Enhanced */}
-      <section className="py-24 bg-white">
+      {/* Main Contact Section */}
+      <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Contact Information */}
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Left - Map & Info */}
             <motion.div
-              className="space-y-8"
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="space-y-6"
             >
               <div>
-                <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-100 rounded-full mb-6">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  <span className="text-blue-700 font-semibold text-sm uppercase tracking-wide">
-                    OUR INFORMATION
-                  </span>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                  Let's Start Your{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-                    Journey
-                  </span>
-                </h2>
-                <p className="text-xl text-gray-600 mb-8">
-                  Whether you're curious about classes, ready to sign up, or
-                  just want to learn more, we're excited to connect with you.
-                </p>
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">Visit Our Gym</h2>
+                <p className="text-slate-600">Come experience the energy of BodyMax Boxing Club in person.</p>
               </div>
 
-              {/* Contact Methods */}
-              <div className="space-y-6">
-                {contactInfo.map((item, index) => {
-                  const Icon = item.icon;
-                  return (
-                    <motion.a
-                      key={index}
-                      href={item.link}
-                      className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group border border-gray-200 hover:border-blue-500"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-700 transition-colors duration-300">
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-black text-gray-900 mb-1">
-                          {item.title}
-                        </h3>
-                        <p className="text-blue-600 font-semibold mb-1">
-                          {item.details}
-                        </p>
-                        <p className="text-gray-600 text-sm">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.a>
-                  );
-                })}
-              </div>
-
-              {/* Map Preview */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <div className="aspect-video bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center">
-                  <div className="text-center text-gray-900">
-                    <MapPin className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                    <p className="text-lg font-black">BodyMax boxing club</p>
-                    <p className="text-gray-600">Nyarugenge , kimisagara,</p>
-                    <p className="text-gray-600">Kigali, Rwanda</p>
-                    <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
+              {/* Map Card */}
+              <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100">
+                <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+                  <div className="text-center text-white p-6">
+                    <MapPin className="w-10 h-10 text-blue-400 mx-auto mb-3" />
+                    <p className="font-bold text-lg">BodyMax Boxing Club</p>
+                    <p className="text-slate-300 text-sm">Nyarugenge, Kimisagara</p>
+                    <p className="text-slate-300 text-sm">Kigali, Rwanda</p>
+                    <button className="mt-4 px-5 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition">
                       Open in Maps
                     </button>
                   </div>
                 </div>
-              </motion.div>
+              </div>
+
+              {/* Quick Directions */}
+              <div className="bg-white rounded-2xl p-5 border border-slate-100">
+                <h3 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-blue-600" />
+                  Getting Here
+                </h3>
+                <div className="space-y-2 text-sm text-slate-600">
+                  <p>📍 Located in the heart of Kimisagara</p>
+                  <p>🚗 Free parking available for members</p>
+                  <p>🚌 Bus stop: Kimisagara Stage (2 min walk)</p>
+                </div>
+              </div>
             </motion.div>
 
-            {/* Contact Form */}
+            {/* Right - Contact Form */}
             <motion.div
-              className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200"
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8"
             >
-              <div className="flex items-center gap-3 mb-8">
-                <MessageCircle className="w-8 h-8 text-blue-600" />
-                <h3 className="text-2xl font-black text-gray-900">
-                  Send us a Message
-                </h3>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center">
+                  <MessageCircle className="w-4 h-4 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Send a Message</h3>
               </div>
 
               {isSubmitted ? (
                 <motion.div
-                  className="text-center py-12"
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-12"
                 >
-                  <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                  <h4 className="text-2xl font-black text-gray-900 mb-2">
-                    Message Sent!
-                  </h4>
-                  <p className="text-gray-600 mb-6">
-                    Thank you for reaching out. We'll get back to you within 24
-                    hours.
+                  <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h4 className="text-xl font-bold text-slate-900 mb-2">Message Sent!</h4>
+                  <p className="text-slate-500 mb-6">
+                    Thanks for reaching out. We'll respond within 24 hours.
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+                    className="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition"
                   >
-                    Send Another Message
+                    Send Another
                   </button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-gray-900 font-semibold mb-2">
+                      <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">
                         Full Name *
                       </label>
                       <input
@@ -382,13 +312,13 @@ const Contact = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full bg-gray-50 text-gray-900 px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
-                        placeholder="Enter your full name"
+                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
+                        placeholder="John Doe"
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-900 font-semibold mb-2">
-                        Email Address *
+                      <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">
+                        Email *
                       </label>
                       <input
                         type="email"
@@ -396,28 +326,28 @@ const Contact = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full bg-gray-50 text-gray-900 px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
-                        placeholder="Enter your email"
+                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
+                        placeholder="hello@example.com"
                       />
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-gray-900 font-semibold mb-2">
-                        Phone Number
+                      <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">
+                        Phone
                       </label>
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full bg-gray-50 text-gray-900 px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
                         placeholder="+250 XXX XXX XXX"
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-900 font-semibold mb-2">
+                      <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">
                         Subject *
                       </label>
                       <select
@@ -425,26 +355,20 @@ const Contact = () => {
                         value={formData.subject}
                         onChange={handleChange}
                         required
-                        className="w-full bg-gray-50 text-gray-900 px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
                       >
-                        <option value="">Select a subject</option>
-                        <option value="support">Support</option>
+                        <option value="">Select subject</option>
                         <option value="membership">Membership Inquiry</option>
-                        <option value="trial-class">Free Trial Class</option>
-                        <option value="private-training">
-                          Private Training
-                        </option>
-                        <option value="kids-program">
-                          Kids & Teens Program
-                        </option>
+                        <option value="trial">Free Trial Class</option>
+                        <option value="training">Private Training</option>
+                        <option value="kids">Kids Program</option>
                         <option value="general">General Question</option>
-                        <option value="other">Other</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-gray-900 font-semibold mb-2">
+                    <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">
                       Message *
                     </label>
                     <textarea
@@ -452,31 +376,31 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      rows={6}
-                      className="w-full bg-gray-50 text-gray-900 px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 resize-none"
-                      placeholder="Tell us about your goals, questions, or how we can help you..."
+                      rows={5}
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition resize-none"
+                      placeholder="Tell us about your goals or questions..."
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
+                    className="w-full py-3 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         Sending...
                       </>
                     ) : (
                       <>
-                        <Send className="w-5 h-5" />
+                        <Send className="w-4 h-4" />
                         Send Message
                       </>
                     )}
                   </button>
 
-                  <p className="text-gray-500 text-sm text-center">
+                  <p className="text-xs text-slate-400 text-center">
                     We typically respond within 2-4 hours during business hours.
                   </p>
                 </form>
@@ -486,109 +410,89 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* FAQ Section - Enhanced */}
-      <section className="py-24 bg-gradient-to-br from-blue-50 to-white">
+      {/* FAQ Section */}
+      <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
           >
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-100 rounded-full mb-6">
-              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-              <span className="text-blue-700 font-semibold text-sm uppercase tracking-wide">
-                COMMON QUESTIONS
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full mb-4">
+              <Award className="w-3.5 h-3.5 text-blue-600" />
+              <span className="text-xs font-semibold text-blue-700 tracking-wide uppercase">
+                Common Questions
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-              Frequently Asked{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-                Questions
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Quick answers to common questions about training, memberships, and
-              getting started.
-            </p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-3">Frequently Asked Questions</h2>
+            <p className="text-slate-500">Quick answers about training, memberships, and getting started.</p>
           </motion.div>
 
-          <div className="space-y-6">
-            {faqs.map((faq, index) => (
+          <div className="space-y-3">
+            {faqs.map((faq, idx) => (
               <motion.div
-                key={index}
-                className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200 hover:border-blue-500 transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
+                key={idx}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                viewport={{ once: true }}
+                className="bg-slate-50 rounded-xl p-5 hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-slate-100"
               >
-                <h3 className="text-lg font-black text-gray-900 mb-3 flex items-center gap-3">
-                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-sm font-bold">?</span>
-                  </div>
+                <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">?</span>
                   {faq.question}
                 </h3>
-                <p className="text-gray-600 leading-relaxed pl-9">
-                  {faq.answer}
-                </p>
+                <p className="text-slate-600 text-sm pl-7">{faq.answer}</p>
               </motion.div>
             ))}
           </div>
 
           <motion.div
-            className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="text-center mt-10 pt-6 border-t border-slate-100"
           >
-            <p className="text-gray-600 mb-4">
-              Still have questions? We're happy to help!
-            </p>
+            <p className="text-slate-500 mb-4">Still have questions? We're here to help.</p>
             <a
-              href="tel:+250 788 531 112"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+              href="tel:+250788531112"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition"
             >
-              <Phone className="w-5 h-5" />
+              <Phone className="w-4 h-4" />
               Call Us Now
             </a>
           </motion.div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="py-20 bg-white">
+      {/* CTA Banner */}
+      <section className="py-16 bg-slate-900">
         <div className="max-w-4xl mx-auto text-center px-6">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
-              Ready to Throw Your First Punch?
-            </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Don't wait to start your transformation. Contact us today and
-              discover how boxing can change your life.
+            <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
+            <p className="text-slate-300 mb-8 max-w-xl mx-auto">
+              Book your free trial class today and experience the BodyMax difference.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Book Free Trial Class
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="px-8 py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition shadow-sm">
+                Book Free Trial
               </button>
               <a
-                href="tel:+250788123456"
-                className="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-600 hover:text-white transition-all duration-300 flex items-center gap-2"
+                href="tel:+250788531112"
+                className="px-8 py-3 bg-slate-800 text-white text-sm font-semibold rounded-xl hover:bg-slate-700 transition flex items-center justify-center gap-2"
               >
-                <Phone className="w-5 h-5" />
-                Call Now
+                <Phone className="w-4 h-4" />
+                Call +250 788 531 112
               </a>
             </div>
-
-            <p className="text-gray-500 mt-6 text-sm">
-              📞 Immediate Assistance • 🎯 Expert Guidance • 💪 All Levels
-              Welcome • 🕒 Flexible Scheduling
-            </p>
           </motion.div>
         </div>
       </section>

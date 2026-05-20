@@ -552,7 +552,6 @@ const Coaches = () => {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 };

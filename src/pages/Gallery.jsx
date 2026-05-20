@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import axios from "axios";
 import {
   Play,
   X,
@@ -59,216 +61,28 @@ const Gallery = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  // Gallery media data
-  const galleryMedia = [
-    {
-      id: 1,
-      type: "image",
-      category: "training",
-      src: "https://i.postimg.cc/bJ318qSc/Screenshot_2026_03_01_174706.png",
-      thumbnail: "https://i.postimg.cc/bJ318qSc/Screenshot_2026_03_01_174706.png",
-      title: "Morning Boxing Fundamentals",
-      description:
-        "Members perfecting their technique in our 6 AM fundamentals class under professional guidance",
-      date: "2024-01-15",
-      views: 1242,
-      likes: 89,
-      comments: 23,
-      tags: ["Training", "Beginners", "Technique", "Fundamentals"],
-      featured: true,
-      coach: "Coach David",
-      location: "Main Ring",
-      duration: "60 mins",
-      equipment: ["Gloves", "Pads", "Mitts"],
-    },
-    {
-      id: 2,
-      type: "image",
-      category: "training",
-      src: "https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png",
-      thumbnail: "https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png",
-      title: "High-Energy Fitness Class",
-      description:
-        "Boxing for Fitness class in full swing with intense cardio workout and professional coaching",
-      date: "2024-01-10",
-      duration: "2:45",
-      views: 2856,
-      likes: 156,
-      comments: 42,
-      tags: ["Cardio", "Workout", "Advanced", "Fitness", "HIIT"],
-      featured: true,
-      coach: "Coach Sarah",
-      location: "Cardio Zone",
-      duration: "45 mins",
-      equipment: ["Heavy Bags", "Speed Bags"],
-    },
-    {
-      id: 3,
-      type: "image",
-      category: "training",
-      src: "https://i.postimg.cc/YCjZBPJf/Screenshot_2026_03_01_170658.png",
-      thumbnail: "https://i.postimg.cc/YCjZBPJf/Screenshot_2026_03_01_170658.png",
-      title: "Professional Boxing Session",
-      description:
-        "Young champions learning discipline, technique, and sportsmanship in our youth program",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: ["Beginners", "Community", "Training", "Youth", "Development"],
-      coach: "Coach Mike",
-      location: "Kids Zone",
-      duration: "45 mins",
-      equipment: ["Junior Gloves", "Focus Mitts"],
-    },
-    {
-      id: 3,
-      type: "image",
-      category: "training",
-      src: "https://i.postimg.cc/wv6DS1vD/Screenshot_2026_03_01_174550.png",
-      thumbnail: "https://i.postimg.cc/wv6DS1vD/Screenshot_2026_03_01_174550.png",
-      title: "Kids Boxing Session",
-      description:
-        "Young champions learning discipline, technique, and sportsmanship in our youth program",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: ["Beginners", "Community", "Training", "Youth", "Development"],
-      coach: "Coach Mike",
-      location: "Kids Zone",
-      duration: "45 mins",
-      equipment: ["Junior Gloves", "Focus Mitts"],
-    },
-    {
-      id: 4,
-      type: "image",
-      category: "coach",
-      src: "https://i.postimg.cc/FsT8qvnK/Screenshot_2026_03_01_171211.png",
-      thumbnail: "https://i.postimg.cc/FsT8qvnK/Screenshot_2026_03_01_171211.png",
-      title: "Elite Boxing Coach",
-      description:
-        "Professional coach with 15+ years experience training champions and national competitors",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: ["Coach", "Professional", "Expert", "Training", "Mentor"],
-      coach: "Head Coach",
-      location: "Coaching Area",
-      duration: "Private",
-      equipment: ["Professional Gear"],
-    },
-    {
-      id: 5,
-      type: "image",
-      category: "championship",
-      src: "https://i.postimg.cc/zvvKG4Tg/Screenshot_2026_03_01_174742.png",
-      thumbnail:
-        "https://i.postimg.cc/zvvKG4Tg/Screenshot_2026_03_01_174742.png",
-      title: "Universal Championship Victory",
-      description:
-        "Our champion celebrating victory at international boxing championship with gold medal",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: [
-        "Championship",
-        "Competition",
-        "Success",
-        "Victory",
-        "International",
-      ],
-      coach: "National Team",
-      location: "International Arena",
-      duration: "Championship",
-      equipment: ["Competition Gloves"],
-    },
-    {
-      id: 5,
-      type: "image",
-      category: "championship",
-      src: "https://i.postimg.cc/gJY3fxJM/Screenshot_2026_03_01_174534.png",
-      thumbnail: "https://i.postimg.cc/gJY3fxJM/Screenshot_2026_03_01_174534.png",
-      title: "IBA Championship Victory",
-      description:
-        "Our champion celebrating victory at international boxing championship with gold medal",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: [
-        "Championship",
-        "Competition",
-        "Success",
-        "Victory",
-        "International",
-      ],
-      featured: true,
-      coach: "National Team",
-      location: "International Arena",
-      duration: "Championship",
-      equipment: ["Competition Gloves"],
-    },
-    {
-      id: 6,
-      type: "image",
-      category: "profile",
-      src: "https://i.postimg.cc/DwmH3N9n/Screenshot_2026_03_01_170739.png",
-      thumbnail: "https://i.postimg.cc/DwmH3N9n/Screenshot_2026_03_01_170739.png",
-      title: "Valentin - National Champion",
-      description:
-        "Professional boxer with multiple national titles, awards, and international recognition",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: ["Profile", "Boxer", "Athlete", "Champion", "Professional"],
-      coach: "Elite Training",
-      location: "Competition Ring",
-      duration: "Professional",
-      equipment: ["Competition Gear"],
-    },
-    {
-      id: 7,
-      type: "image",
-      category: "profile",
-      src: "https://i.postimg.cc/wv6DS1vD/Screenshot_2026_03_01_174550.png",
-      thumbnail: "https://i.postimg.cc/wv6DS1vD/Screenshot_2026_03_01_174550.png",
-      title: "Frank - Rising Star",
-      description:
-        "Young talent showing exceptional skills, dedication, and championship potential",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: ["Profile", "Boxer", "Talent", "Rising Star", "Future"],
-      coach: "Development Program",
-      location: "Training Ring",
-      duration: "Development",
-      equipment: ["Training Gear"],
-    },
-    {
-      id: 7,
-      type: "image",
-      category: "profile",
-      src: "https://i.postimg.cc/wTwZPzb0/Screenshot_2026_03_01_170506.png",
-      thumbnail: "https://i.postimg.cc/wTwZPzb0/Screenshot_2026_03_01_170506.png",
-      title: "Our Heading Name",
-      description:
-        "Young talent showing exceptional skills, dedication, and championship potential",
-      date: "2024-01-12",
-      views: 1895,
-      likes: 123,
-      comments: 31,
-      tags: ["Profile", "Boxer", "Talent", "Rising Star", "Future"],
-      coach: "Development Program",
-      location: "Training Ring",
-      duration: "Development",
-      equipment: ["Training Gear"],
-    },
-  ];
+  // Gallery media data fetched from database
+  const [galleryMedia, setGalleryMedia] = useState([]);
+
+  // Fetch gallery items from database
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await axios.get("https://bodymax-bc-backend.onrender.com/api/gallery?limit=100");
+        if (response.data.success) {
+          // Normalize category 'coaches' to 'coach' for matching UI category tags
+          const normalized = response.data.data.map(item => ({
+            ...item,
+            category: item.category === "coaches" ? "coach" : item.category
+          }));
+          setGalleryMedia(normalized);
+        }
+      } catch (error) {
+        console.error("Error fetching gallery items:", error);
+      }
+    };
+    fetchGallery();
+  }, []);
 
   const categories = [
     {
@@ -370,12 +184,35 @@ const Gallery = () => {
     touchEndX.current = 0;
   };
 
-  const openMedia = (media, index) => {
+  const openMedia = async (media, index) => {
     setSelectedMedia(media);
     setCurrentIndex(index);
     setZoomLevel(1);
     setIsFullscreen(false);
-    setViewedItems((prev) => new Set([...prev, media.id]));
+
+    const apiId = media._id || media.id;
+
+    // Check if we already viewed this in this session to avoid spamming
+    if (!viewedItems.has(media.id)) {
+      setViewedItems((prev) => new Set([...prev, media.id]));
+
+      // Optimistically increment local views count
+      setGalleryMedia((prev) =>
+        prev.map((item) =>
+          item.id === media.id
+            ? { ...item, views: (item.views || 0) + 1 }
+            : item
+        )
+      );
+
+      // Call API in the background to increment views in the database
+      try {
+        await axios.get(`https://bodymax-bc-backend.onrender.com/api/gallery/${apiId}`);
+      } catch (error) {
+        console.error("Error updating views count:", error);
+      }
+    }
+
     document.body.style.overflow = "hidden";
   };
 
@@ -404,7 +241,12 @@ const Gallery = () => {
     }, 300);
   };
 
-  const toggleLike = (id) => {
+  const toggleLike = async (id) => {
+    // Find the item in our local galleryMedia to get the actual database MongoDB _id
+    const itemObj = galleryMedia.find(item => item.id === id);
+    const apiId = itemObj ? (itemObj._id || itemObj.id) : id;
+
+    // Toggle in local liked items set
     setLikedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
@@ -414,6 +256,27 @@ const Gallery = () => {
       }
       return newSet;
     });
+
+    // Optimistically update counts in local state
+    setGalleryMedia((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          const isLiking = !likedItems.has(id);
+          return {
+            ...item,
+            likes: isLiking ? (item.likes || 0) + 1 : Math.max((item.likes || 0) - 1, 0),
+          };
+        }
+        return item;
+      })
+    );
+
+    // Call API in background
+    try {
+      await axios.patch(`https://bodymax-bc-backend.onrender.com/api/gallery/${apiId}/like`);
+    } catch (error) {
+      console.error("Error liking item:", error);
+    }
   };
 
   const toggleFullscreen = () => {
@@ -512,12 +375,12 @@ const Gallery = () => {
       <Navbar />
 
       {/* PREMIUM WHITE HERO: MAXIMUM CLARITY */}
-      <section className="relative min-h-[90vh] bg-white overflow-hidden border-b border-slate-100">
+      <section className="relative min-h-[90vh] bg-white overflow-hidden border-b border-slate-100 pt-10">
         {/* Background Decorative Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-0 right-0 w-[50%] h-full bg-slate-50 skew-x-[-12deg] translate-x-20"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/5 blur-[100px] rounded-full"></div>
-          
+
           {/* Subtle grid pattern */}
           <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         </div>
@@ -551,8 +414,8 @@ const Gallery = () => {
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl leading-relaxed font-medium">
-                Witness the power, precision, and passion that defines BodyMax. 
-                Explore our world through stunning visuals and inspiring stories 
+                Witness the power, precision, and passion that defines BodyMax.
+                Explore our world through stunning visuals and inspiring stories
                 of champions in the making.
               </p>
 
@@ -614,9 +477,8 @@ const Gallery = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 + idx * 0.1 }}
-                      className={`relative overflow-hidden rounded-2xl ${
-                        idx === 0 ? "row-span-2" : ""
-                      }`}
+                      className={`relative overflow-hidden rounded-2xl ${idx === 0 ? "row-span-2" : ""
+                        }`}
                       whileHover={{ scale: 1.05 }}
                     >
                       <img
@@ -657,9 +519,8 @@ const Gallery = () => {
 
       {/* Gallery Controls */}
       <div
-        className={`sticky top-16 sm:top-20 z-30 bg-white/95 backdrop-blur-sm border-b border-gray-200 transition-all duration-300 ${
-          isScrolled ? "shadow-lg" : ""
-        }`}
+        className={`sticky top-16 sm:top-20 z-30 bg-white/95 backdrop-blur-sm border-b border-gray-200 transition-all duration-300 ${isScrolled ? "shadow-lg" : ""
+          }`}
       >
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
@@ -687,20 +548,18 @@ const Gallery = () => {
                       <button
                         key={cat.id}
                         onClick={() => setSelectedCategory(cat.id)}
-                        className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium whitespace-nowrap transition-all duration-300 ${
-                          selectedCategory === cat.id
+                        className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium whitespace-nowrap transition-all duration-300 ${selectedCategory === cat.id
                             ? `bg-gradient-to-r ${cat.color} text-white shadow-lg`
                             : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
-                        }`}
+                          }`}
                       >
                         <Icon className="w-4 h-4" />
                         <span className="text-sm sm:text-base">{cat.name}</span>
                         <span
-                          className={`text-xs px-2 py-0.5 rounded-full ${
-                            selectedCategory === cat.id
+                          className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === cat.id
                               ? "bg-white/20"
                               : "bg-gray-100"
-                          }`}
+                            }`}
                         >
                           {cat.count}
                         </span>
@@ -714,21 +573,19 @@ const Gallery = () => {
               <div className="flex items-center gap-2 bg-white rounded-xl border border-gray-200 p-1">
                 <button
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-lg transition-all duration-300 ${
-                    viewMode === "grid"
+                  className={`p-2 rounded-lg transition-all duration-300 ${viewMode === "grid"
                       ? "bg-blue-50 text-blue-600"
                       : "text-gray-600 hover:text-blue-600"
-                  }`}
+                    }`}
                 >
                   <Grid className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setViewMode("masonry")}
-                  className={`p-2 rounded-lg transition-all duration-300 ${
-                    viewMode === "masonry"
+                  className={`p-2 rounded-lg transition-all duration-300 ${viewMode === "masonry"
                       ? "bg-blue-50 text-blue-600"
                       : "text-gray-600 hover:text-blue-600"
-                  }`}
+                    }`}
                 >
                   <List className="w-5 h-5" />
                 </button>
@@ -803,16 +660,14 @@ const Gallery = () => {
                             e.stopPropagation();
                             toggleLike(media.id);
                           }}
-                          className={`p-2 rounded-full backdrop-blur-sm border ${
-                            likedItems.has(media.id)
+                          className={`p-2 rounded-full backdrop-blur-sm border ${likedItems.has(media.id)
                               ? "bg-red-500/90 text-white border-red-500/50"
                               : "bg-white/10 text-white border-white/20 hover:bg-white/20"
-                          }`}
+                            }`}
                         >
                           <Heart
-                            className={`w-4 h-4 ${
-                              likedItems.has(media.id) ? "fill-current" : ""
-                            }`}
+                            className={`w-4 h-4 ${likedItems.has(media.id) ? "fill-current" : ""
+                              }`}
                           />
                         </button>
                       </div>
@@ -892,354 +747,352 @@ const Gallery = () => {
       </section>
 
       {/* ADVANCED PROFESSIONAL MODAL WITH ROUND ARROWS */}
-      <AnimatePresence>
-        {selectedMedia && (
-          <motion.div
-            ref={modalRef}
-            className="fixed inset-0 bg-black z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            {/* Top Control Bar - Mobile Optimized */}
-            <div className="absolute top-0 left-0 right-0 z-40">
-              <div className="flex items-center justify-between p-4 sm:p-6">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={closeMedia}
-                    className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                  {!isMobile && (
-                    <div className="text-white">
-                      <div className="text-sm opacity-80">Gallery</div>
-                      <div className="font-semibold text-sm truncate max-w-[200px]">
-                        {selectedMedia.title}
+      {ReactDOM.createPortal(
+        <AnimatePresence>
+          {selectedMedia && (
+            <motion.div
+              ref={modalRef}
+              className="fixed inset-0 bg-black z-[9999]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              {/* Top Control Bar - Mobile Optimized */}
+              <div className="absolute top-0 left-0 right-0 z-40">
+                <div className="flex items-center justify-between p-4 sm:p-6">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={closeMedia}
+                      className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                    {!isMobile && (
+                      <div className="text-white">
+                        <div className="text-sm opacity-80">Gallery</div>
+                        <div className="font-semibold text-sm truncate max-w-[200px]">
+                          {selectedMedia.title}
+                        </div>
                       </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {!isMobile && (
+                      <>
+                        <button
+                          onClick={() => handleZoom("out")}
+                          className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
+                          disabled={zoomLevel <= 1}
+                        >
+                          <span className="text-lg">-</span>
+                        </button>
+
+                        <button
+                          onClick={resetZoom}
+                          className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20 text-sm"
+                        >
+                          {Math.round(zoomLevel * 100)}%
+                        </button>
+
+                        <button
+                          onClick={() => handleZoom("in")}
+                          className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
+                          disabled={zoomLevel >= 3}
+                        >
+                          <span className="text-lg">+</span>
+                        </button>
+                      </>
+                    )}
+
+                    <button
+                      onClick={toggleFullscreen}
+                      className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
+                    >
+                      {isFullscreen ? (
+                        <Minimize2 className="w-4 h-4" />
+                      ) : (
+                        <Maximize2 className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* SMALL ROUND NAVIGATION ARROWS - Professional Design */}
+              {filteredMedia.length > 1 && (
+                <>
+                  <button
+                    onClick={() => navigateMedia("prev")}
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/80 transition-all duration-200 flex items-center justify-center border border-white/30 shadow-xl hover:scale-110 active:scale-95"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={() => navigateMedia("next")}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/80 transition-all duration-200 flex items-center justify-center border border-white/30 shadow-xl hover:scale-110 active:scale-95"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              )}
+
+              {/* Main Content Area - Mobile Optimized */}
+              <div className="h-full w-full flex flex-col lg:flex-row pt-16 sm:pt-20">
+                {/* Image Display Area */}
+                <div className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
+                  {isLoading ? (
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                      <div className="text-white text-sm">Loading media...</div>
                     </div>
+                  ) : (
+                    <motion.div
+                      key={selectedMedia.id}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3 }}
+                      className="relative"
+                      style={{ transform: `scale(${zoomLevel})` }}
+                    >
+                      <img
+                        ref={imageRef}
+                        src={selectedMedia.src}
+                        alt={selectedMedia.title}
+                        className={`${isMobile ? "max-h-[50vh]" : "max-h-[70vh]"
+                          } max-w-full object-contain rounded-lg shadow-2xl`}
+                        onLoad={() => setIsLoading(false)}
+                        onError={() => setIsLoading(false)}
+                      />
+
+                      {isLoading && (
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                      )}
+                    </motion.div>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2">
-                  {!isMobile && (
-                    <>
+                {/* Advanced Info Panel - Mobile Optimized */}
+                <div
+                  className={`${isMobile ? "w-full mt-4" : "w-full lg:w-96"
+                    } bg-gray-900 ${!isMobile && "border-l border-gray-800"
+                    } overflow-y-auto`}
+                >
+                  <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+                    {/* Header */}
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                          {selectedMedia.title}
+                        </h2>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-xs sm:text-sm text-gray-400">
+                            {new Date(selectedMedia.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              },
+                            )}
+                          </span>
+                          <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
+                          <span className="text-xs sm:text-sm text-gray-400">
+                            {selectedMedia.views.toLocaleString()} views
+                          </span>
+                          {selectedMedia.featured && (
+                            <>
+                              <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
+                              <span className="text-xs bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 py-1 rounded-full flex items-center gap-1">
+                                <Crown className="w-3 h-3" />
+                                <span>Featured</span>
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 ml-4">
+                        <button
+                          onClick={() => toggleLike(selectedMedia.id)}
+                          className={`p-2 rounded-lg ${likedItems.has(selectedMedia.id)
+                              ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                              : "bg-gray-800 text-gray-400 hover:text-white border border-gray-700"
+                            }`}
+                        >
+                          <Heart
+                            className={`w-5 h-5 ${likedItems.has(selectedMedia.id)
+                                ? "fill-current"
+                                : ""
+                              }`}
+                          />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+                        Description
+                      </h3>
+                      <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
+                        {selectedMedia.description}
+                      </p>
+                    </div>
+
+                    {/* Details Grid */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                      {selectedMedia.coach && (
+                        <div className="bg-gray-800/50 rounded-lg p-3 sm:p-4">
+                          <div className="text-xs text-gray-400 mb-1">Coach</div>
+                          <div className="text-white font-medium text-sm sm:text-base">
+                            {selectedMedia.coach}
+                          </div>
+                        </div>
+                      )}
+                      {selectedMedia.location && (
+                        <div className="bg-gray-800/50 rounded-lg p-3 sm:p-4">
+                          <div className="text-xs text-gray-400 mb-1">
+                            Location
+                          </div>
+                          <div className="text-white font-medium text-sm sm:text-base">
+                            {selectedMedia.location}
+                          </div>
+                        </div>
+                      )}
+                      {selectedMedia.duration && (
+                        <div className="bg-gray-800/50 rounded-lg p-3 sm:p-4">
+                          <div className="text-xs text-gray-400 mb-1">
+                            Duration
+                          </div>
+                          <div className="text-white font-medium text-sm sm:text-base">
+                            {selectedMedia.duration}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Tags */}
+                    {selectedMedia.tags && selectedMedia.tags.length > 0 && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">
+                          Tags
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedMedia.tags.map((tag, index) => (
+                            <span
+                              key={index}
+                              className="px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full text-xs font-medium hover:bg-gray-700 transition-colors"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-800">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white">
+                          {selectedMedia.views.toLocaleString()}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-1">Views</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white">
+                          {selectedMedia.likes}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-1">Likes</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white">
+                          {selectedMedia.comments}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-1">Comments</div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 pt-4 border-t border-gray-800">
+                      <button
+                        onClick={() => handleShare(selectedMedia)}
+                        className="flex-1 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                      >
+                        <Share2 className="w-4 h-4" />
+                        Share
+                      </button>
+                      <button
+                        onClick={() => handleDownload(selectedMedia)}
+                        className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Bottom Bar */}
+              {isMobile && (
+                <div className="absolute bottom-4 left-0 right-0 z-40 px-4">
+                  <div className="flex items-center justify-between">
+                    <div className="text-white text-sm">
+                      {currentIndex + 1} / {filteredMedia.length}
+                    </div>
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleZoom("out")}
-                        className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
+                        className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm text-white flex items-center justify-center"
                         disabled={zoomLevel <= 1}
                       >
-                        <span className="text-lg">-</span>
+                        <span className="text-sm">-</span>
                       </button>
-
                       <button
                         onClick={resetZoom}
-                        className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20 text-sm"
+                        className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm text-white flex items-center justify-center text-xs"
                       >
                         {Math.round(zoomLevel * 100)}%
                       </button>
-
                       <button
                         onClick={() => handleZoom("in")}
-                        className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
+                        className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm text-white flex items-center justify-center"
                         disabled={zoomLevel >= 3}
                       >
-                        <span className="text-lg">+</span>
-                      </button>
-                    </>
-                  )}
-
-                  <button
-                    onClick={toggleFullscreen}
-                    className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 transition-all duration-200 flex items-center justify-center border border-white/20"
-                  >
-                    {isFullscreen ? (
-                      <Minimize2 className="w-4 h-4" />
-                    ) : (
-                      <Maximize2 className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* SMALL ROUND NAVIGATION ARROWS - Professional Design */}
-            {filteredMedia.length > 1 && (
-              <>
-                <button
-                  onClick={() => navigateMedia("prev")}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/80 transition-all duration-200 flex items-center justify-center border border-white/30 shadow-xl hover:scale-110 active:scale-95"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <button
-                  onClick={() => navigateMedia("next")}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md text-white hover:bg-black/80 transition-all duration-200 flex items-center justify-center border border-white/30 shadow-xl hover:scale-110 active:scale-95"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              </>
-            )}
-
-            {/* Main Content Area - Mobile Optimized */}
-            <div className="h-full w-full flex flex-col lg:flex-row pt-16 sm:pt-20">
-              {/* Image Display Area */}
-              <div className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
-                {isLoading ? (
-                  <div className="flex flex-col items-center justify-center">
-                    <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                    <div className="text-white text-sm">Loading media...</div>
-                  </div>
-                ) : (
-                  <motion.div
-                    key={selectedMedia.id}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                    className="relative"
-                    style={{ transform: `scale(${zoomLevel})` }}
-                  >
-                    <img
-                      ref={imageRef}
-                      src={selectedMedia.src}
-                      alt={selectedMedia.title}
-                      className={`${
-                        isMobile ? "max-h-[50vh]" : "max-h-[70vh]"
-                      } max-w-full object-contain rounded-lg shadow-2xl`}
-                      onLoad={() => setIsLoading(false)}
-                      onError={() => setIsLoading(false)}
-                    />
-
-                    {isLoading && (
-                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
-                        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </div>
-
-              {/* Advanced Info Panel - Mobile Optimized */}
-              <div
-                className={`${
-                  isMobile ? "w-full mt-4" : "w-full lg:w-96"
-                } bg-gray-900 ${
-                  !isMobile && "border-l border-gray-800"
-                } overflow-y-auto`}
-              >
-                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-                  {/* Header */}
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                        {selectedMedia.title}
-                      </h2>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs sm:text-sm text-gray-400">
-                          {new Date(selectedMedia.date).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            },
-                          )}
-                        </span>
-                        <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
-                        <span className="text-xs sm:text-sm text-gray-400">
-                          {selectedMedia.views.toLocaleString()} views
-                        </span>
-                        {selectedMedia.featured && (
-                          <>
-                            <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
-                            <span className="text-xs bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 py-1 rounded-full flex items-center gap-1">
-                              <Crown className="w-3 h-3" />
-                              <span>Featured</span>
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 ml-4">
-                      <button
-                        onClick={() => toggleLike(selectedMedia.id)}
-                        className={`p-2 rounded-lg ${
-                          likedItems.has(selectedMedia.id)
-                            ? "bg-red-500/20 text-red-400 border border-red-500/30"
-                            : "bg-gray-800 text-gray-400 hover:text-white border border-gray-700"
-                        }`}
-                      >
-                        <Heart
-                          className={`w-5 h-5 ${
-                            likedItems.has(selectedMedia.id)
-                              ? "fill-current"
-                              : ""
-                          }`}
-                        />
+                        <span className="text-sm">+</span>
                       </button>
                     </div>
                   </div>
-
-                  {/* Description */}
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-                      Description
-                    </h3>
-                    <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
-                      {selectedMedia.description}
-                    </p>
-                  </div>
-
-                  {/* Details Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                    {selectedMedia.coach && (
-                      <div className="bg-gray-800/50 rounded-lg p-3 sm:p-4">
-                        <div className="text-xs text-gray-400 mb-1">Coach</div>
-                        <div className="text-white font-medium text-sm sm:text-base">
-                          {selectedMedia.coach}
-                        </div>
-                      </div>
-                    )}
-                    {selectedMedia.location && (
-                      <div className="bg-gray-800/50 rounded-lg p-3 sm:p-4">
-                        <div className="text-xs text-gray-400 mb-1">
-                          Location
-                        </div>
-                        <div className="text-white font-medium text-sm sm:text-base">
-                          {selectedMedia.location}
-                        </div>
-                      </div>
-                    )}
-                    {selectedMedia.duration && (
-                      <div className="bg-gray-800/50 rounded-lg p-3 sm:p-4">
-                        <div className="text-xs text-gray-400 mb-1">
-                          Duration
-                        </div>
-                        <div className="text-white font-medium text-sm sm:text-base">
-                          {selectedMedia.duration}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Tags */}
-                  {selectedMedia.tags && selectedMedia.tags.length > 0 && (
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">
-                        Tags
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedMedia.tags.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full text-xs font-medium hover:bg-gray-700 transition-colors"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-800">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-white">
-                        {selectedMedia.views.toLocaleString()}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1">Views</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-white">
-                        {selectedMedia.likes}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1">Likes</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-white">
-                        {selectedMedia.comments}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1">Comments</div>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-3 pt-4 border-t border-gray-800">
-                    <button
-                      onClick={() => handleShare(selectedMedia)}
-                      className="flex-1 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm"
-                    >
-                      <Share2 className="w-4 h-4" />
-                      Share
-                    </button>
-                    <button
-                      onClick={() => handleDownload(selectedMedia)}
-                      className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download
-                    </button>
-                  </div>
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Mobile Bottom Bar */}
-            {isMobile && (
-              <div className="absolute bottom-4 left-0 right-0 z-40 px-4">
-                <div className="flex items-center justify-between">
-                  <div className="text-white text-sm">
-                    {currentIndex + 1} / {filteredMedia.length}
+              {/* Swipe Hint for Mobile */}
+              {isMobile && filteredMedia.length > 1 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="absolute bottom-16 left-0 right-0 text-center"
+                >
+                  <div className="inline-flex items-center gap-2 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full">
+                    <ChevronLeft className="w-4 h-4 text-white/60" />
+                    <span className="text-xs text-white/60">
+                      Swipe to navigate
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-white/60" />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleZoom("out")}
-                      className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm text-white flex items-center justify-center"
-                      disabled={zoomLevel <= 1}
-                    >
-                      <span className="text-sm">-</span>
-                    </button>
-                    <button
-                      onClick={resetZoom}
-                      className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm text-white flex items-center justify-center text-xs"
-                    >
-                      {Math.round(zoomLevel * 100)}%
-                    </button>
-                    <button
-                      onClick={() => handleZoom("in")}
-                      className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm text-white flex items-center justify-center"
-                      disabled={zoomLevel >= 3}
-                    >
-                      <span className="text-sm">+</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Swipe Hint for Mobile */}
-            {isMobile && filteredMedia.length > 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="absolute bottom-16 left-0 right-0 text-center"
-              >
-                <div className="inline-flex items-center gap-2 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full">
-                  <ChevronLeft className="w-4 h-4 text-white/60" />
-                  <span className="text-xs text-white/60">
-                    Swipe to navigate
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-white/60" />
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+                </motion.div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-br from-gray-900 to-black">
@@ -1289,9 +1142,8 @@ const Gallery = () => {
                           <motion.div
                             key={item.id}
                             whileHover={{ scale: 1.05 }}
-                            className={`relative overflow-hidden rounded-2xl ${
-                              idx === 0 ? "row-span-2" : ""
-                            }`}
+                            className={`relative overflow-hidden rounded-2xl ${idx === 0 ? "row-span-2" : ""
+                              }`}
                           >
                             <img
                               src={item.thumbnail}
@@ -1326,7 +1178,6 @@ const Gallery = () => {
         </button>
       )}
 
-      <Footer />
     </>
   );
 };

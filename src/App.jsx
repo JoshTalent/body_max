@@ -13,6 +13,7 @@ import Kids_teens from "./pages/programs/Kids-teens";
 import BoxersPage from "./pages/BoxersPage";
 import Blog from "./pages/Blog";
 import Coaches from "./pages/Coaches";
+import EventsPage from "./pages/EventsPage";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/boxers" element={<BoxersPage />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/coaches" element={<Coaches />} />
+        <Route path="/events" element={<EventsPage />} />
       </Routes>
       <Footer />
     </>

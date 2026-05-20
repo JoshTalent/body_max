@@ -7,7 +7,7 @@ import { MessageCircle, Phone } from "lucide-react";
 const About = () => {
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <Abouts />
     </>
   );

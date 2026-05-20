@@ -634,7 +634,6 @@ const BoxingFitness = () => {
         )}
       </AnimatePresence>
 
-      <Footer />
     </>
   );
 };

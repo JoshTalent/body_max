@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import axios from "axios";
 import {
   Trophy,
   Crown,
@@ -27,82 +27,24 @@ const BoxersPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Sample boxers data
-  const boxers = [
-    {
-      id: 1,
-      name: "Mike Rodriguez",
-      nickname: "The Iron Giant",
-      category: "professional",
-      weight: "Heavyweight",
-      record: "15-2-0 (12 KO)",
-      image: "https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png",
-      stats: { height: "6'3\"", reach: '78"', age: 28 },
-      bio: "A devastating power puncher with knockout power in both hands. Mike has dominated the heavyweight scene with raw strength and relentless pressure.",
-      achievements: ["WBC Heavyweight Champion", "Golden Gloves Winner 2019"],
-      nationality: "USA",
-      hometown: "Brooklyn, NY"
-    },
-    {
-      id: 9,
-      name: "Frank Kalisa",
-      nickname: "Kigali Killa",
-      category: "professional",
-      weight: "Lightweight",
-      record: "8-0-0 (6 KO)",
-      image: "https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png",
-      stats: { height: "5'8\"", reach: '70"', age: 20 },
-      bio: "Rwanda's undefeated rising star. Frank's speed and explosive counter-punching have made him the most feared prospect in East Africa.",
-      achievements: ["National Pro Champion", "East African Series Winner"],
-      nationality: "Rwanda",
-      hometown: "Kigali"
-    },
-    {
-      id: 6,
-      name: "James Brooks",
-      nickname: "The Gentleman",
-      category: "amateur",
-      weight: "Middleweight",
-      record: "48-4-0",
-      image: "https://i.postimg.cc/wv6DS1vD/Screenshot_2026_03_01_174550.png",
-      stats: { height: "6'1\"", reach: '76"', age: 23 },
-      bio: "A technical mastermind. James applies scientific precision to every exchange, earning his reputation as a master tactician.",
-      achievements: ["National Elite Champion", "All-American 2022"],
-      nationality: "USA",
-      hometown: "Philadelphia"
-    },
-    {
-      id: 7,
-      name: "Danny Martinez",
-      nickname: "The Kid",
-      category: "amateur",
-      weight: "Light Flyweight",
-      record: "26-2-0",
-      image: "https://i.postimg.cc/gJY3fxJM/Screenshot_2026_03_01_174534.png",
-      stats: { height: "5'2\"", reach: '62"', age: 17 },
-      bio: "Young, hungry, and dangerously fast. Danny's work rate and technical foundation are well beyond his years.",
-      achievements: ["Junior National Gold", "Regional MVP"],
-      nationality: "USA",
-      hometown: "Miami"
-    },
-    {
-      id: 10,
-      name: "Abdul Havyarimana",
-      nickname: "The Shadow",
-      category: "amateur",
-      weight: "Featherweight",
-      record: "17-1-0",
-      image: "https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png",
-      stats: { height: "5'5\"", reach: '66"', age: 19 },
-      bio: "The featherweight division's most elusive target. Abdul's footwork and defensive mastery make him almost impossible to pin down.",
-      achievements: ["African Youth Champion", "National Junior Gold"],
-      nationality: "Rwanda",
-      hometown: "Kigali"
-    },
-  ];
+  // Live boxers data fetched from database
+  const [boxers, setBoxers] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 600);
+    const fetchBoxers = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get("https://bodymax-bc-backend.onrender.com/api/boxers");
+        if (response.data.success) {
+          setBoxers(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching boxers from database:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchBoxers();
   }, []);
 
   const filteredBoxers = boxers.filter(
@@ -120,10 +62,10 @@ const BoxersPage = () => {
       <section className="relative pt-32 pb-24 bg-white overflow-hidden">
         {/* Background Decorative Elements */}
         <div className="absolute inset-0 z-0">
-           <div className="absolute top-0 right-0 w-[40%] h-full bg-slate-50 skew-x-[-15deg] translate-x-20"></div>
-           <div className="absolute top-1/4 left-10 w-64 h-64 bg-blue-600/5 rounded-full blur-[100px]"></div>
+          <div className="absolute top-0 right-0 w-[40%] h-full bg-slate-50 skew-x-[-15deg] translate-x-20"></div>
+          <div className="absolute top-1/4 left-10 w-64 h-64 bg-blue-600/5 rounded-full blur-[100px]"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
             <motion.div
@@ -140,19 +82,19 @@ const BoxersPage = () => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">WARRIORS</span>
               </h1>
               <p className="text-xl text-slate-600 font-medium mb-12 max-w-xl">
-                The heart and soul of BodyMax. From technical amateurs to elite professionals, 
+                The heart and soul of BodyMax. From technical amateurs to elite professionals,
                 meet the champions who define our legacy.
               </p>
 
               <div className="relative max-w-md">
-                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                 <input 
-                   type="text" 
-                   placeholder="Find a fighter..."
-                   value={searchTerm}
-                   onChange={(e) => setSearchTerm(e.target.value)}
-                   className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl pl-12 pr-4 py-4 text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all shadow-sm"
-                 />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Find a fighter..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl pl-12 pr-4 py-4 text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all shadow-sm"
+                />
               </div>
             </motion.div>
 
@@ -162,25 +104,25 @@ const BoxersPage = () => {
               transition={{ duration: 1 }}
               className="relative hidden lg:block"
             >
-               <div className="relative w-[450px] h-[550px] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
-                  <img 
-                    src="https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png" 
-                    className="w-full h-full object-cover" 
-                    alt="boxer hero"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
-               </div>
-               
-               {/* Achievement Badge */}
-               <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-[2rem] shadow-2xl border border-slate-100 flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white">
-                     <Trophy className="w-6 h-6" />
-                  </div>
-                  <div>
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Division</p>
-                     <p className="text-xl font-black text-slate-900 uppercase">Pro Elite</p>
-                  </div>
-               </div>
+              <div className="relative w-[450px] h-[550px] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
+                <img
+                  src="https://i.postimg.cc/fyymR1YW/Screenshot_2026_03_01_174723.png"
+                  className="w-full h-full object-cover"
+                  alt="boxer hero"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
+              </div>
+
+              {/* Achievement Badge */}
+              <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-[2rem] shadow-2xl border border-slate-100 flex items-center gap-4">
+                <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white">
+                  <Trophy className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Division</p>
+                  <p className="text-xl font-black text-slate-900 uppercase">Pro Elite</p>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -190,14 +132,14 @@ const BoxersPage = () => {
       <section className="sticky top-16 md:top-20 z-40 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-center space-x-8">
-            <TabButton 
-              active={activeDivision === 'professional'} 
+            <TabButton
+              active={activeDivision === 'professional'}
               onClick={() => setActiveDivision('professional')}
               label="Professional Division"
               icon={Crown}
             />
-            <TabButton 
-              active={activeDivision === 'amateur'} 
+            <TabButton
+              active={activeDivision === 'amateur'}
               onClick={() => setActiveDivision('amateur')}
               label="Amateur Prospects"
               icon={Star}
@@ -209,45 +151,43 @@ const BoxersPage = () => {
       {/* FIGHTER GRID */}
       <main className="py-20 bg-slate-50 min-h-[60vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <AnimatePresence mode="wait">
-             <motion.div
-               key={activeDivision}
-               initial={{ opacity: 0, y: 20 }}
-               animate={{ opacity: 1, y: 0 }}
-               exit={{ opacity: 0, y: -20 }}
-               transition={{ duration: 0.4 }}
-               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
-             >
-               {filteredBoxers.map((boxer, idx) => (
-                 <FighterCard key={boxer.id} boxer={boxer} idx={idx} onClick={() => setSelectedBoxer(boxer)} />
-               ))}
-             </motion.div>
-           </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeDivision}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+            >
+              {filteredBoxers.map((boxer, idx) => (
+                <FighterCard key={boxer.id} boxer={boxer} idx={idx} onClick={() => setSelectedBoxer(boxer)} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
 
-           {filteredBoxers.length === 0 && (
-             <div className="py-40 text-center">
-                <Search className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-slate-500">No fighters found. Try a different search term.</h3>
-             </div>
-           )}
+          {filteredBoxers.length === 0 && (
+            <div className="py-40 text-center">
+              <Search className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-slate-500">No fighters found. Try a different search term.</h3>
+            </div>
+          )}
         </div>
       </main>
 
       {/* CTA SECTION */}
       <section className="py-24 bg-white border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 text-center">
-           <h2 className="text-4xl font-black text-slate-900 mb-6">READY TO JOIN THE SQUAD?</h2>
-           <p className="text-xl text-slate-500 mb-10 leading-relaxed">
-             We are always looking for dedicated talent to join our development program. 
-             Book an assessment session with our head coaches today.
-           </p>
-           <button className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-2xl transition-all shadow-xl shadow-blue-500/20">
-              Book Your Assessment
-           </button>
+          <h2 className="text-4xl font-black text-slate-900 mb-6">READY TO JOIN THE SQUAD?</h2>
+          <p className="text-xl text-slate-500 mb-10 leading-relaxed">
+            We are always looking for dedicated talent to join our development program.
+            Book an assessment session with our head coaches today.
+          </p>
+          <button className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-2xl transition-all shadow-xl shadow-blue-500/20">
+            Book Your Assessment
+          </button>
         </div>
       </section>
-
-      <Footer />
 
       {/* CENTERED MODAL */}
       <AnimatePresence>
@@ -260,11 +200,10 @@ const BoxersPage = () => {
 const TabButton = ({ active, onClick, label, icon: Icon }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-2 py-6 px-4 border-b-2 font-bold text-sm transition-all ${
-      active 
-        ? "border-blue-600 text-blue-600" 
+    className={`flex items-center gap-2 py-6 px-4 border-b-2 font-bold text-sm transition-all ${active
+        ? "border-blue-600 text-blue-600"
         : "border-transparent text-slate-500 hover:text-slate-900"
-    }`}
+      }`}
   >
     <Icon className={`w-4 h-4 ${active ? "text-blue-600" : "text-slate-400"}`} />
     {label}
@@ -287,14 +226,14 @@ const FighterCard = ({ boxer, idx, onClick }) => (
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
       <div className="absolute top-4 left-4 flex flex-col gap-2">
-         <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] font-black text-slate-900 uppercase tracking-widest shadow-sm">
-            {boxer.weight}
-         </span>
-         {boxer.category === 'professional' && (
-           <span className="px-3 py-1 bg-blue-600 rounded-full text-[10px] font-black text-white uppercase tracking-widest shadow-lg">
-              PRO
-           </span>
-         )}
+        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] font-black text-slate-900 uppercase tracking-widest shadow-sm">
+          {boxer.weight}
+        </span>
+        {boxer.category === 'professional' && (
+          <span className="px-3 py-1 bg-blue-600 rounded-full text-[10px] font-black text-white uppercase tracking-widest shadow-lg">
+            PRO
+          </span>
+        )}
       </div>
     </div>
 
@@ -307,7 +246,7 @@ const FighterCard = ({ boxer, idx, onClick }) => (
         <MapPin className="w-3 h-3" />
         {boxer.nationality} • {boxer.hometown}
       </p>
-      
+
       <div className="flex items-center justify-between pt-6 border-t border-slate-100">
         <div className="flex flex-col">
           <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Record</span>
@@ -341,46 +280,46 @@ const FighterModal = ({ boxer, onClose }) => (
       </button>
 
       <div className="grid md:grid-cols-2">
-         <div className="h-[400px] md:h-auto overflow-hidden">
-            <img src={boxer.image} alt={boxer.name} className="w-full h-full object-cover" />
-         </div>
-         <div className="p-10 lg:p-14">
-            <div className="mb-8">
-               <span className="text-blue-600 font-black text-xs uppercase tracking-widest mb-2 block">
-                  {boxer.category === 'professional' ? 'PRO DIVISION' : 'AMATEUR PROSPECT'}
-               </span>
-               <h2 className="text-4xl font-black text-slate-900 mb-1 leading-tight">{boxer.name}</h2>
-               <p className="text-lg text-slate-500 font-bold italic">"{boxer.nickname}"</p>
-            </div>
+        <div className="h-[400px] md:h-auto overflow-hidden">
+          <img src={boxer.image} alt={boxer.name} className="w-full h-full object-cover" />
+        </div>
+        <div className="p-10 lg:p-14">
+          <div className="mb-8">
+            <span className="text-blue-600 font-black text-xs uppercase tracking-widest mb-2 block">
+              {boxer.category === 'professional' ? 'PRO DIVISION' : 'AMATEUR PROSPECT'}
+            </span>
+            <h2 className="text-4xl font-black text-slate-900 mb-1 leading-tight">{boxer.name}</h2>
+            <p className="text-lg text-slate-500 font-bold italic">"{boxer.nickname}"</p>
+          </div>
 
-            <div className="grid grid-cols-2 gap-6 mb-10">
-               <ModalStat label="Weight Class" value={boxer.weight} icon={Trophy} />
-               <ModalStat label="Official Record" value={boxer.record} icon={Activity} />
-               <ModalStat label="Height" value={boxer.stats.height} icon={Target} />
-               <ModalStat label="Hometown" value={boxer.hometown} icon={Globe} />
-            </div>
+          <div className="grid grid-cols-2 gap-6 mb-10">
+            <ModalStat label="Weight Class" value={boxer.weight} icon={Trophy} />
+            <ModalStat label="Official Record" value={boxer.record} icon={Activity} />
+            <ModalStat label="Height" value={boxer.stats.height} icon={Target} />
+            <ModalStat label="Hometown" value={boxer.hometown} icon={Globe} />
+          </div>
 
-            <div className="mb-10">
-               <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Biography</h4>
-               <p className="text-slate-600 leading-relaxed font-medium">{boxer.bio}</p>
-            </div>
+          <div className="mb-10">
+            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Biography</h4>
+            <p className="text-slate-600 leading-relaxed font-medium">{boxer.bio}</p>
+          </div>
 
-            <div>
-               <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Major Achievements</h4>
-               <div className="space-y-3">
-                  {boxer.achievements.map((acc, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                       <Award className="w-4 h-4 text-amber-500" />
-                       <span className="text-xs font-bold text-slate-900">{acc}</span>
-                    </div>
-                  ))}
-               </div>
+          <div>
+            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Major Achievements</h4>
+            <div className="space-y-3">
+              {boxer.achievements.map((acc, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                  <Award className="w-4 h-4 text-amber-500" />
+                  <span className="text-xs font-bold text-slate-900">{acc}</span>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <button className="w-full mt-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm uppercase tracking-widest rounded-2xl shadow-xl transition-all">
-               Book Assessment Session
-            </button>
-         </div>
+          <button className="w-full mt-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm uppercase tracking-widest rounded-2xl shadow-xl transition-all">
+            Book Assessment Session
+          </button>
+        </div>
       </div>
     </motion.div>
   </div>
@@ -388,13 +327,13 @@ const FighterModal = ({ boxer, onClose }) => (
 
 const ModalStat = ({ label, value, icon: Icon }) => (
   <div className="flex items-start gap-3">
-     <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
-        <Icon className="w-4 h-4" />
-     </div>
-     <div>
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{label}</p>
-        <p className="text-sm font-black text-slate-900">{value}</p>
-     </div>
+    <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
+      <Icon className="w-4 h-4" />
+    </div>
+    <div>
+      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{label}</p>
+      <p className="text-sm font-black text-slate-900">{value}</p>
+    </div>
   </div>
 );
 

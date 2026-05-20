@@ -36,6 +36,7 @@ const Footer = () => {
       links: [
         { name: "About Us", to: "/about" },
         { name: "Our Coaches", to: "/coaches" },
+        { name: "Events & Fight Nights", to: "/events" },
         { name: "Schedule & Pricing", to: "/schedule" },
         { name: "Gallery", to: "/gallery" },
         { name: "Blog & News", to: "/blog" },

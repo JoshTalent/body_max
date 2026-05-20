@@ -138,7 +138,7 @@ const AboutUs = () => {
       <Navbar />
 
       {/* PREMIUM WHITE HERO: MAXIMUM CLARITY */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white pt-20">
         {/* Background Decorative Elements */}
         <div className="absolute inset-0 z-0">
            <div className="absolute top-0 right-0 w-[50%] h-full bg-slate-50 skew-x-[-10deg] translate-x-20"></div>

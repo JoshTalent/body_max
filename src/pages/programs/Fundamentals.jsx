@@ -75,7 +75,7 @@ const BoxingFundamentals = () => {
       <Navbar />
 
       {/* NEW LAYOUT: Split Screen Hero */}
-      <section className="min-h-screen bg-white flex flex-col lg:flex-row">
+      <section className="min-h-screen bg-white flex flex-col lg:flex-row p-10">
         {/* Left Side - Content */}
         <div className="flex-1 flex items-center justify-center p-12 bg-gradient-to-br from-blue-50 to-white">
           <motion.div
@@ -463,7 +463,6 @@ const BoxingFundamentals = () => {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 };
