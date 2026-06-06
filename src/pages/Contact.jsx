@@ -175,17 +175,23 @@ const Contact = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-wrap gap-4">
-                <button className="px-6 py-3 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-all shadow-sm flex items-center gap-2">
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="px-6 py-3 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-all shadow-sm flex items-center gap-2"
+                >
                   Book Free Trial
                   <ArrowRight className="w-4 h-4" />
-                </button>
-                <a
+                </motion.button>
+                <motion.a
                   href="tel:+250788531112"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   className="px-6 py-3 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2"
                 >
                   <Phone className="w-4 h-4" />
                   Call Now
-                </a>
+                </motion.a>
               </div>
             </motion.div>
 
@@ -440,8 +446,8 @@ const Contact = () => {
                 viewport={{ once: true }}
                 className="bg-slate-50 rounded-xl p-5 hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-slate-100"
               >
-                <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                  <span className="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">?</span>
+                <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-2 group cursor-pointer">
+                  <span className="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">?</span>
                   {faq.question}
                 </h3>
                 <p className="text-slate-600 text-sm pl-7">{faq.answer}</p>
@@ -481,17 +487,23 @@ const Contact = () => {
             <p className="text-slate-300 mb-8 max-w-xl mx-auto">
               Book your free trial class today and experience the BodyMax difference.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition shadow-sm">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition shadow-sm"
+              >
                 Book Free Trial
-              </button>
-              <a
+              </motion.button>
+              <motion.a
                 href="tel:+250788531112"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 className="px-8 py-3 bg-slate-800 text-white text-sm font-semibold rounded-xl hover:bg-slate-700 transition flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4" />
                 Call +250 788 531 112
-              </a>
+              </motion.a>
             </div>
           </motion.div>
         </div>

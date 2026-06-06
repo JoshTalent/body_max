@@ -183,9 +183,13 @@ const BoxersPage = () => {
             We are always looking for dedicated talent to join our development program.
             Book an assessment session with our head coaches today.
           </p>
-          <button className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-2xl transition-all shadow-xl shadow-blue-500/20">
-            Book Your Assessment
-          </button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg rounded-2xl transition-all shadow-xl shadow-blue-500/30"
+              >
+                Book Your Assessment
+              </motion.button>
         </div>
       </section>
 
@@ -217,7 +221,9 @@ const FighterCard = ({ boxer, idx, onClick }) => (
     transition={{ delay: idx * 0.1 }}
     viewport={{ once: true }}
     onClick={onClick}
-    className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+    whileHover={{ y: -8, scale: 1.02 }}
+    className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-2xl transition-all duration-300 cursor-pointer relative"
+    style={{ perspective: "1000px" }}
   >
     <div className="aspect-[4/5] relative overflow-hidden bg-slate-100">
       <img
@@ -316,9 +322,13 @@ const FighterModal = ({ boxer, onClose }) => (
             </div>
           </div>
 
-          <button className="w-full mt-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm uppercase tracking-widest rounded-2xl shadow-xl transition-all">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full mt-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-sm uppercase tracking-widest rounded-2xl shadow-xl transition-all"
+          >
             Book Assessment Session
-          </button>
+          </motion.button>
         </div>
       </div>
     </motion.div>

@@ -129,7 +129,7 @@ const BoxingFundamentals = () => {
             >
               <motion.a
                 href="/booking"
-                className="group relative px-8 py-4 bg-blue-600 rounded-xl font-semibold text-white text-center overflow-hidden"
+                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl font-semibold text-white text-center overflow-hidden shadow-lg hover:shadow-blue-500/30"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -415,7 +415,7 @@ const BoxingFundamentals = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <motion.a
                   href="/booking"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-center transition-all duration-300 flex items-center justify-center gap-3"
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-center transition-all shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-3"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

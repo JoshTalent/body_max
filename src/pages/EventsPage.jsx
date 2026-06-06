@@ -699,10 +699,12 @@ const EventsPage = () => {
                               />
                             </div>
 
-                            <button
+                            <motion.button
                               type="submit"
                               disabled={isRegistering}
-                              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg py-2.5 font-bold text-[10px] shadow-lg shadow-blue-500/10 transition-colors flex items-center justify-center gap-1.5 uppercase tracking-wider"
+                              whileHover={!isRegistering ? { scale: 1.02 } : {}}
+                              whileTap={!isRegistering ? { scale: 0.98 } : {}}
+                              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-blue-400 disabled:to-blue-400 text-white rounded-lg py-2.5 font-bold text-[10px] shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-1.5 uppercase tracking-wider"
                             >
                               {isRegistering ? (
                                 <>
@@ -712,7 +714,7 @@ const EventsPage = () => {
                               ) : (
                                 <span>Confirm Spot & Get Pass</span>
                               )}
-                            </button>
+                            </motion.button>
                           </form>
                         </div>
                       )}

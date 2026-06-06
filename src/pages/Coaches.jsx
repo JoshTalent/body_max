@@ -373,19 +373,31 @@ const Coaches = () => {
                     {/* Action Buttons */}
                     <div className="flex items-center justify-between pt-6 border-t border-gray-200">
                       <div className="flex items-center gap-4">
-                        <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+                        >
                           <Mail className="w-4 h-4" />
                           <span className="text-sm font-medium">Email</span>
-                        </button>
-                        <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors">
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+                        >
                           <Phone className="w-4 h-4" />
                           <span className="text-sm font-medium">Call</span>
-                        </button>
+                        </motion.button>
                       </div>
 
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-blue-500/30"
+                      >
                         Book Session
-                      </button>
+                      </motion.button>
                     </div>
                   </div>
                 </div>

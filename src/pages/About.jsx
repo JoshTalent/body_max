@@ -6,10 +6,14 @@ import { MessageCircle, Phone } from "lucide-react";
 
 const About = () => {
   return (
-    <>
-      <Navbar/>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Navbar />
       <Abouts />
-    </>
+    </motion.div>
   );
 };
 

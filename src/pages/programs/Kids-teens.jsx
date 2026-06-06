@@ -103,14 +103,22 @@ const KidsTeens = () => {
               kids thrive both inside and outside the ring.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-black text-lg rounded-2xl transition-all hover:scale-105 shadow-2xl shadow-blue-500/30 flex items-center justify-center gap-3">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-black text-lg rounded-2xl transition-all shadow-2xl shadow-blue-500/30 flex items-center justify-center gap-3"
+              >
                 Start Free Trial
                 <PlayCircle className="w-5 h-5" />
-              </button>
-              <button className="px-10 py-5 border-2 border-blue-600 text-blue-600 font-black text-lg rounded-2xl hover:bg-blue-50 transition-all flex items-center justify-center gap-2">
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 border-2 border-blue-600 text-blue-600 font-black text-lg rounded-2xl hover:bg-blue-50 transition-all flex items-center justify-center gap-2"
+              >
                 View Schedule
                 <ArrowRight className="w-5 h-5" />
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </div>
@@ -192,9 +200,13 @@ const KidsTeens = () => {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-4 bg-white border border-slate-200 text-slate-900 font-black rounded-2xl hover:bg-slate-950 hover:text-white transition-all shadow-sm">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 bg-white border border-slate-200 text-slate-900 font-black rounded-2xl hover:bg-slate-950 hover:text-white transition-all shadow-sm"
+                >
                   Learn More
-                </button>
+                </motion.button>
               </motion.div>
             ))}
           </div>
@@ -340,12 +352,20 @@ const KidsTeens = () => {
               disciplined, and healthy champion.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="px-12 py-6 bg-white text-blue-600 font-black text-xl rounded-2xl transition-all hover:scale-105 shadow-2xl">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-12 py-6 bg-white text-blue-600 font-black text-xl rounded-2xl transition-all shadow-2xl"
+              >
                 Claim Free Trial Class
-              </button>
-              <button className="px-12 py-6 bg-blue-700 text-white font-black text-xl rounded-2xl border-2 border-blue-400/30 hover:bg-blue-600 transition-all">
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-12 py-6 bg-blue-700 text-white font-black text-xl rounded-2xl border-2 border-blue-400/30 hover:bg-blue-600 transition-all"
+              >
                 Contact Program Director
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </div>
@@ -357,13 +377,21 @@ const KidsTeens = () => {
 };
 
 const SafetyPoint = ({ title, desc }) => (
-  <div className="flex gap-6">
-    <div className="w-1 h-auto bg-blue-600 rounded-full flex-shrink-0"></div>
+  <motion.div
+    initial={{ opacity: 0, x: -10 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    className="flex gap-6 group"
+  >
+    <motion.div
+      whileHover={{ scale: 1.1 }}
+      className="w-1 h-auto bg-gradient-to-b from-blue-600 to-blue-400 rounded-full flex-shrink-0 group-hover:shadow-lg group-hover:shadow-blue-500/30 transition-all"
+    ></motion.div>
     <div>
-      <h4 className="text-xl font-black text-slate-950 mb-2">{title}</h4>
+      <h4 className="text-xl font-black text-slate-950 mb-2 group-hover:text-blue-600 transition-colors">{title}</h4>
       <p className="text-slate-500 font-medium">{desc}</p>
     </div>
-  </div>
+  </motion.div>
 );
 
 export default KidsTeens;
