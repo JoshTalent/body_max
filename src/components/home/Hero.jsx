@@ -10,38 +10,53 @@ import {
   Shield,
   Clock,
   MapPin,
+  Flame,
+  Crown,
+  Zap,
+  ChevronRight,
+  Calendar,
+  CheckCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   const backgroundSlides = [
     {
-      image: "https://i.postimg.cc/YCjZBPJf/Screenshot_2026_03_01_170658.png",
+      image:
+        "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=1600&h=1000&fit=crop",
       title: "State-of-the-Art Facility",
       subtitle: "Professional equipment & environment",
     },
     {
-      image: "https://i.postimg.cc/hP26wn3z/Screenshot_2026_03_01_170825.png",
+      image:
+        "https://images.unsplash.com/photo-1552072092-7f9b8d63efcb?w=1600&h=1000&fit=crop",
       title: "Championship Training",
       subtitle: "Elite coaching for serious fighters",
     },
     {
-      image: "https://i.postimg.cc/Kv0wVbs0/Screenshot_2026_03_01_171313.png",
+      image:
+        "https://images.unsplash.com/photo-1555597673-b21d5c935865?w=1600&h=1000&fit=crop",
       title: "Proven Results",
       subtitle: "Track record of creating champions",
     },
   ];
 
-  const features = [
-    { icon: Award, text: "15+ National Champions", color: "text-yellow-400" },
-    { icon: Users, text: "1000+ Members Trained", color: "text-blue-400" },
-    { icon: Target, text: "50+ Competition Wins", color: "text-red-400" },
-    { icon: Clock, text: "12 Years Experience", color: "text-green-400" },
+  const achievements = [
+    { value: "15+", label: "National Champions", icon: Crown },
+    { value: "1000+", label: "Active Members", icon: Users },
+    { value: "50+", label: "Competition Wins", icon: Target },
+    { value: "12", label: "Years of Excellence", icon: Award },
   ];
 
-  // Auto-advance slides
+  const upcomingEvents = [
+    { name: "National Championship", date: "Apr 15, 2024", spots: 24 },
+    { name: "Fight Night", date: "Apr 28, 2024", spots: 16 },
+    { name: "Training Camp", date: "May 5, 2024", spots: 32 },
+  ];
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % backgroundSlides.length);
@@ -50,8 +65,8 @@ const Hero = () => {
   }, [backgroundSlides.length]);
 
   return (
-    <section className="relative min-h-screen bg-black overflow-hidden pt-20">
-      {/* Animated Background Images - Reduced Overlays */}
+    <section className="relative min-h-screen bg-black overflow-hidden">
+      {/* Animated Background */}
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">
           <motion.div
@@ -67,210 +82,263 @@ const Hero = () => {
               backgroundPosition: "center",
             }}
           >
-            {/* Reduced overlay for better image visibility */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-            {/* Subtle vignette effect */}
-            <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_transparent_0%,_black/40_100%)]" />
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Reduced grid pattern opacity */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+      {/* Dynamic Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
-      <div className="relative z-10 container mx-auto px-4 lg:px-8">
-        <div className="min-h-screen flex items-center">
-          <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
-            {/* Left Content - Adjusted for better background visibility */}
-            <div className="space-y-8 backdrop-blur-sm bg-black/20 p-8 rounded-2xl border border-white/10 lg:bg-transparent lg:backdrop-blur-none lg:p-0 lg:border-none">
-              {/* Location Badge */}
+      <div className="relative z-10">
+        <div className="container mx-auto px-4 lg:px-12 min-h-screen flex items-center">
+          <div className="grid lg:grid-cols-2 gap-16 w-full py-20">
+            {/* LEFT COLUMN - Main Content */}
+            <div className="space-y-8">
+              {/* Animated Badge */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
-                className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-4 py-2 hover:bg-white/30 transition-colors"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-transparent backdrop-blur-sm border-l-4 border-blue-500 rounded-r-full px-4 py-2"
               >
-                <MapPin className="w-4 h-4 text-white" />
-                <span className="text-sm font-medium text-white">
-                  Kigali, Rwanda
+                <Flame className="w-4 h-4 text-blue-500" />
+                <span className="text-sm font-semibold text-white/90 tracking-wide">
+                  PREMIER BOXING DESTINATION IN RWANDA
                 </span>
               </motion.div>
 
-              {/* Main Title */}
-              <div className="space-y-6">
-                <motion.h1
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-tight"
-                >
-                  BODYMAX
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-300 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-                    BOXING
+              {/* Main Heading */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="space-y-4"
+              >
+                <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.1] tracking-tight">
+                  Forge Your
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600">
+                    Legacy Here
                   </span>
-                  CLUB
-                </motion.h1>
+                </h1>
+                <p className="text-lg text-white/70 leading-relaxed max-w-lg">
+                  Join Rwanda's most prestigious boxing club. World-class
+                  coaching, championship facilities, and a community that pushes
+                  you to greatness.
+                </p>
+              </motion.div>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="text-xl text-white/90 leading-relaxed max-w-2xl font-light drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="flex flex-wrap gap-4"
+              >
+                <Link
+                  to="/programs"
+                  className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-black font-bold rounded-full text-sm uppercase tracking-wider transition-all hover:shadow-2xl hover:shadow-blue-500/25 flex items-center gap-2"
                 >
-                  Where champions are forged. Elite training, professional
-                  coaching, and championship results in Rwanda's premier boxing
-                  facility.
-                </motion.p>
-              </div>
+                  <span className="relative z-10">Start Your Journey</span>
+                  <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                </Link>
+                <button
+                  onClick={() => setIsVideoPlaying(true)}
+                  className="group px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-full text-sm uppercase tracking-wider border border-white/20 hover:bg-white/20 transition-all flex items-center gap-2"
+                >
+                  <Play className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  Watch Story
+                </button>
+              </motion.div>
 
-              {/* Features Grid */}
+              {/* Trust Indicators */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
-                className="grid grid-cols-2 gap-4 max-w-md"
+                className="pt-6 space-y-4"
               >
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={feature.text}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.8 + index * 0.1 }}
-                    className="flex items-center gap-3 p-3 bg-black/40 backdrop-blur-sm rounded-lg border border-white/20 hover:border-white/40 hover:bg-black/60 transition-all duration-300"
-                  >
-                    <feature.icon className={`w-5 h-5 ${feature.color}`} />
-                    <span className="text-white text-sm font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                      {feature.text}
-                    </span>
-                  </motion.div>
-                ))}
+                <p className="text-xs text-white/50 uppercase tracking-wider">
+                  TRUSTED BY ELITE ATHLETES
+                </p>
+                <div className="flex items-center gap-6 flex-wrap">
+                  {achievements.slice(0, 3).map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <item.icon className="w-4 h-4 text-blue-500" />
+                      <div>
+                        <span className="text-white font-bold">
+                          {item.value}
+                        </span>
+                        <span className="text-white/50 text-xs ml-1">
+                          {item.label}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </motion.div>
-
             </div>
 
-            {/* Right Content - Made more transparent */}
-            <div className="relative">
-              {/* Floating Stats Card - More transparent */}
-              <motion.div
-                initial={{ opacity: 0, x: 50, rotateY: 10 }}
-                animate={{ opacity: 1, x: 0, rotateY: 0 }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="relative bg-black/30 backdrop-blur-xl rounded-2xl border border-white/20 p-8 shadow-2xl transform perspective-1000"
-              >
-                {/* Background Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl" />
-
-                <div className="relative space-y-6">
-                  {/* Current Slide Info */}
-                  <div className="text-center space-y-2">
-                    <motion.h3
-                      key={`title-${currentSlide}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-2xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]"
-                    >
-                      {backgroundSlides[currentSlide].title}
-                    </motion.h3>
-                    <motion.p
-                      key={`subtitle-${currentSlide}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]"
-                    >
-                      {backgroundSlides[currentSlide].subtitle}
-                    </motion.p>
-                  </div>
-
-                  {/* Progress Indicator */}
-                  <div className="flex justify-center gap-2">
-                    {backgroundSlides.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentSlide(index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-500 ${
-                          currentSlide === index
-                            ? "bg-white w-8"
-                            : "bg-white/50 hover:bg-white/70"
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Quick Stats */}
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/20">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                        4.9
+            {/* RIGHT COLUMN - Dynamic Content Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="relative"
+            >
+              <div className="relative bg-gradient-to-br from-white/10 to-black/40 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden shadow-2xl">
+                {/* Card Header */}
+                <div className="relative p-6 border-b border-white/10">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                        <Zap className="w-4 h-4 text-blue-500" />
                       </div>
-                      <div className="text-xs text-white/80">RATING</div>
+                      <span className="text-white font-semibold text-sm">
+                        Upcoming Battles
+                      </span>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                        5★
-                      </div>
-                      <div className="text-xs text-white/80">COACHES</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                        24/7
-                      </div>
-                      <div className="text-xs text-white/80">ACCESS</div>
+                    <div className="flex items-center gap-1">
+                      {backgroundSlides.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentSlide(idx)}
+                          className={`h-1 rounded-full transition-all duration-500 ${
+                            currentSlide === idx
+                              ? "bg-blue-500 w-6"
+                              : "bg-white/30 w-2 hover:bg-white/50"
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Floating Elements */}
-                <motion.div
-                  animate={{
-                    y: [0, -10, 0],
-                    rotate: [0, 5, 0],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="absolute -top-3 -right-3 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg"
-                >
-                  <Star className="w-3 h-3 text-black" />
-                </motion.div>
+                {/* Event List */}
+                <div className="p-6 space-y-4">
+                  {upcomingEvents.map((event, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + idx * 0.1 }}
+                      className="group flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                          <Calendar className="w-4 h-4 text-blue-500" />
+                        </div>
+                        <div>
+                          <p className="text-white font-semibold text-sm">
+                            {event.name}
+                          </p>
+                          <p className="text-white/50 text-xs">{event.date}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-white/50">
+                          {event.spots} spots left
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Stats Section */}
+                <div className="p-6 border-t border-white/10 bg-black/30">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <Star className="w-4 h-4 text-blue-500 fill-current" />
+                        <Star className="w-4 h-4 text-blue-500 fill-current" />
+                        <Star className="w-4 h-4 text-blue-500 fill-current" />
+                        <Star className="w-4 h-4 text-blue-500 fill-current" />
+                        <Star className="w-4 h-4 text-blue-500 fill-current" />
+                      </div>
+                      <p className="text-white font-bold text-sm">5.0 Rating</p>
+                      <p className="text-white/40 text-[10px] uppercase tracking-wider">
+                        From 500+ reviews
+                      </p>
+                    </div>
+                    <div className="text-center border-l border-white/10">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <Clock className="w-4 h-4 text-blue-500" />
+                      </div>
+                      <p className="text-white font-bold text-sm">
+                        24/7 Access
+                      </p>
+                      <p className="text-white/40 text-[10px] uppercase tracking-wider">
+                        Train anytime
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decorative Elements */}
+                <div className="absolute -top-3 -right-3 w-16 h-16 bg-gradient-to-br from-blue-500/20 to-transparent rounded-full blur-xl" />
+                <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-blue-500/20 rounded-full blur-xl" />
+              </div>
+
+              {/* Location Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="absolute -bottom-4 left-8 right-8 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 p-3 flex items-center justify-between"
+              >
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-blue-500" />
+                  <span className="text-white/80 text-sm">
+                    KG 456 St, Kigali - Rwanda
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-emerald-500" />
+                  <span className="text-white/60 text-xs">
+                    Certified Facility
+                  </span>
+                </div>
               </motion.div>
-
-              {/* Background Decorative Elements - Reduced opacity */}
-              <div className="absolute -z-10 top-1/2 -right-4 w-32 h-32 bg-blue-500/5 rounded-full blur-xl animate-pulse"></div>
-              <div
-                className="absolute -z-10 bottom-8 -left-8 w-24 h-24 bg-purple-500/5 rounded-full blur-xl animate-pulse"
-                style={{ animationDelay: "2s" }}
-              ></div>
-            </div>
+            </motion.div>
           </div>
         </div>
+
+        {/* Bottom Feature Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-lg border-t border-white/10"
+        >
+          <div className="container mx-auto px-4 lg:px-12 py-3">
+            <div className="flex flex-wrap justify-center items-center gap-8 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                <span className="text-white/60">World-Class Coaching</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                <span className="text-white/60">
+                  Proven Championship Results
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                <span className="text-white/60">State-of-the-Art Facility</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                <span className="text-white/60">Elite Training Programs</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
-
-      {/* Bottom Bar - More transparent */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-0 left-0 right-0 bg-black/20 backdrop-blur-lg border-t border-white/10"
-      >
-        <div className="container mx-auto px-4 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-white/90">
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-green-400" />
-                <span>Certified Coaches</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-yellow-400" />
-                <span>Championship Proven</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span>Mon-Sun: 5AM - 10PM</span>
-              <span>•</span>
-              <span>KG 456 St, Kigali</span>
-            </div>
-          </div>
-        </div>
-      </motion.div>
 
       {/* Video Modal */}
       <AnimatePresence>
@@ -279,30 +347,38 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center p-4"
             onClick={() => setIsVideoPlaying(false)}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="relative bg-black rounded-2xl overflow-hidden max-w-4xl w-full border border-white/20"
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden max-w-4xl w-full border border-white/20 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="aspect-video bg-gray-900 flex items-center justify-center">
-                <div className="text-white text-center">
-                  <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                  <p className="text-lg">Club Showcase Video</p>
-                  <p className="text-sm text-gray-400 mt-2">
-                    Experience BodyMax boxing club
+              <div className="aspect-video bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center">
+                <div className="text-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-4 shadow-2xl"
+                  >
+                    <Play className="w-10 h-10 text-black" />
+                  </motion.div>
+                  <p className="text-white font-bold text-xl tracking-tight">
+                    BodyMax Showcase
+                  </p>
+                  <p className="text-white/40 text-sm mt-1">
+                    Experience the champion's journey
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsVideoPlaying(false)}
-                className="absolute top-4 right-4 w-8 h-8 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors border border-white/20"
+                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/20"
               >
-                ×
+                <span className="text-xl">✕</span>
               </button>
             </motion.div>
           </motion.div>
